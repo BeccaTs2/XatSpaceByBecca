@@ -492,28 +492,28 @@
         title: 'Vivo Pensando en Ti',
         artist: 'Felipe Peláez ft. Maluma',
         duration: 225,
-        url: './music/vivo-pensando-en-ti.mp3',
+        url: 'music/vivo-pensando-en-ti.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg'
       },
       {
         title: 'Abatido',
         artist: 'Farruko ft Makaco El Cerebro',
         duration: 245,
-        url: './music/abatido.mp3',
+        url: 'music/abatido.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000001-000000-t500x500.jpg'
       },
       {
         title: 'Dígale',
         artist: 'David Bisbal',
         duration: 198,
-        url: './music/digale.mp3',
+        url: 'music/digale.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000002-000000-t500x500.jpg'
       },
       {
         title: 'Adán y Eva',
         artist: 'Paulo Londra',
         duration: 210,
-        url: './music/adan-y-eva.mp3',
+        url: 'music/adan-y-eva.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000003-000000-t500x500.jpg'
       }
     ];
@@ -650,7 +650,10 @@
         item.style.cursor = 'pointer';
         item.addEventListener('click', () => {
           loadTrack(idx);
-          audio.play();
+          audio.play().catch(e => {
+            console.warn("Audio bloqueado o no encontrado:", e);
+            setStatus("Error: Archivo no encontrado");
+          });
         });
       });
     });
@@ -658,7 +661,12 @@
     function togglePlay() { 
       if (audio.src) {
         if (isPlaying) audio.pause();
-        else audio.play();
+      else {
+        audio.play().catch(e => {
+          console.warn("Error al reproducir:", e);
+          setStatus("Error: No se pudo cargar");
+        });
+      }
       }
     }
 
@@ -677,14 +685,14 @@
     function scPrev() { 
       if (currentTrackIdx > 0) {
         loadTrack(currentTrackIdx - 1);
-        audio.play();
+      audio.play().catch(e => console.warn("Error en pista anterior"));
       }
     }
 
     function scNext() { 
       if (currentTrackIdx < playlist.length - 1) {
         loadTrack(currentTrackIdx + 1);
-        audio.play();
+      audio.play().catch(e => console.warn("Error en siguiente pista"));
       }
     }
 
