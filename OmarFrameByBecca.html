@@ -492,28 +492,28 @@
         title: 'Vivo Pensando en Ti',
         artist: 'Felipe Peláez ft. Maluma',
         duration: 225,
-        url: 'music/vivo-pensando-en-ti.mp3',
+        url: './music/vivo-pensando-en-ti.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg'
       },
       {
         title: 'Abatido',
         artist: 'Farruko ft Makaco El Cerebro',
         duration: 245,
-        url: 'music/abatido.mp3',
+        url: './music/abatido.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000001-000000-t500x500.jpg'
       },
       {
         title: 'Dígale',
         artist: 'David Bisbal',
         duration: 198,
-        url: 'music/digale.mp3',
+        url: './music/digale.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000002-000000-t500x500.jpg'
       },
       {
         title: 'Adán y Eva',
         artist: 'Paulo Londra',
         duration: 210,
-        url: 'music/adan-y-eva.mp3',
+        url: './music/adan-y-eva.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000003-000000-t500x500.jpg'
       }
     ];
@@ -588,9 +588,15 @@
       currentTrackIdx = idx;
       const track = playlist[idx];
       
+      console.log("Intentando cargar audio desde:", track.url); // ¡Importante para depurar!
       audio.src = track.url;
       document.getElementById('songTitle').textContent = track.title;
       document.getElementById('songArtist').textContent = track.artist;
+      
+      // Intentar cargar la carátula de SoundCloud, si falla usar una por defecto
+      const albumImg = document.getElementById('albumArt');
+      albumImg.onerror = () => { albumImg.src = 'https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg'; };
+      
       document.getElementById('albumArt').src = track.art;
       document.getElementById('totalTime').textContent = fmt(track.duration * 1000);
       
@@ -610,7 +616,7 @@
       // Event listeners del audio
       audio.addEventListener('play', () => {
         isPlaying = true;
-        document.getElementById('btnPlay').innerHTML = '&#10074;&#10074;';
+        document.getElementById('btnPlay').innerHTML = '&#10074;&#10074;'; // Icono de pausa
         document.getElementById('albumArt').classList.add('spinning');
         setStatus('Reproduciendo');
       });
@@ -635,10 +641,28 @@
         }
       });
 
+      audio.addEventListener('error', (e) => {
+        const detailedErrorMsg = "Error: No se pudo cargar el archivo de audio. Revisa la consola (F12) para ver la URL exacta que está fallando.";
+        console.error("Error cargando audio:", audio.src, e);
+        setStatus(detailedErrorMsg);
+        isPlaying = false;
+        document.getElementById('btnPlay').innerHTML = '&#9654;';
+        // Opcionalmente, podrías intentar cargar la siguiente pista automáticamente
+        // if (currentTrackIdx < playlist.length - 1) {
+        //   console.log("Intentando cargar la siguiente pista debido a un error.");
+        //   scNext();
+        // } else {
+        //   console.log("No hay más pistas para intentar cargar.");
+        //   setStatus("Error: No se pudo cargar ninguna pista.");
+        // }
+      });
+
       audio.addEventListener('timeupdate', () => {
-        const pct = (audio.currentTime / audio.duration) * 100;
-        document.getElementById('progressFill').style.width = pct + '%';
-        document.getElementById('currentTime').textContent = fmt(audio.currentTime * 1000);
+        if (audio.duration && !isNaN(audio.duration)) {
+          const pct = (audio.currentTime / audio.duration) * 100;
+          document.getElementById('progressFill').style.width = pct + '%';
+          document.getElementById('currentTime').textContent = fmt(audio.currentTime * 1000);
+        }
       });
 
       audio.addEventListener('durationchange', () => {
@@ -659,14 +683,14 @@
     });
 
     function togglePlay() { 
-      if (audio.src) {
-        if (isPlaying) audio.pause();
-      else {
-        audio.play().catch(e => {
-          console.warn("Error al reproducir:", e);
-          setStatus("Error: No se pudo cargar");
+      if (!audio.src || audio.src.includes('undefined')) return;
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play().catch(err => {
+          console.error("Error al intentar reproducir:", err);
+          setStatus("Error: No se pudo reproducir. Intenta de nuevo.");
         });
-      }
       }
     }
 
