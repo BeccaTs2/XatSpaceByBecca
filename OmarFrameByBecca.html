@@ -683,23 +683,29 @@
       document.querySelectorAll('.track-item').forEach((item, idx) => {
         item.style.cursor = 'pointer';
         item.addEventListener('click', () => {
-          loadTrack(idx);
-          audio.play().catch(e => {
-            console.warn("Audio bloqueado o no encontrado:", e);
-            setStatus("Error: Archivo no encontrado");
-          });
+          const track = playlist[idx];
+          if (track && track.url) {
+            loadTrack(idx);
+            audio.play().catch(e => {
+              console.warn("Audio bloqueado o no encontrado:", e);
+              setStatus("Error: No se pudo reproducir el archivo");
+            });
+          }
         });
       });
     });
 
     function togglePlay() { 
-      if (!audio.src || audio.src.includes('undefined')) return;
+      if (!audio.src || audio.src === "" || audio.src.includes('undefined')) {
+        setStatus("Error: Pista no válida");
+        return;
+      }
       if (isPlaying) {
         audio.pause();
       } else {
         audio.play().catch(err => {
-          console.error("Playback failed:", err);
-          setStatus("Error: No se pudo cargar");
+          console.error("Playback failed for:", audio.src, err);
+          setStatus("Error: Archivo no encontrado");
         });
       }
     }
