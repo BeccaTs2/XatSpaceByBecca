@@ -154,111 +154,45 @@
       background: radial-gradient(circle at 50% 0%, rgba(233,30,99,0.15) 0%, transparent 60%);
       pointer-events: none;
     }
-
-    /* Carátula */
-    .album-section {
-      padding: 36px 36px 0;
-      display: flex; flex-direction: column; align-items: center;
-    }
-    .album-art-wrap {
-      position: relative; width: 200px; height: 200px; margin-bottom: 28px;
-      border-radius: 50%;
-    }
+    .album-section { padding: 36px 36px 0; display: flex; flex-direction: column; align-items: center; }
+    .album-art-wrap { position: relative; width: 200px; height: 200px; margin-bottom: 28px; border-radius: 50%; }
     .album-glow {
       position: absolute; inset: -20px; border-radius: 50%;
       background: radial-gradient(circle, rgba(233,30,99,0.5), rgba(156,39,176,0.3), transparent 70%);
-      filter: blur(20px);
-      animation: glowPulse 2s ease-in-out infinite;
+      filter: blur(20px); animation: glowPulse 2s ease-in-out infinite;
     }
     @keyframes glowPulse { 0%,100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
-    .album-art {
-      width: 200px; height: 200px; border-radius: 50%;
-      object-fit: cover; position: relative; z-index: 2;
-      border: 4px solid rgba(255,255,255,0.15);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      transition: transform 0.3s;
-    }
+    .album-art { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; position: relative; z-index: 2; border: 4px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.5); transition: transform 0.3s; }
     .album-art.spinning { animation: spinArt 8s linear infinite; }
     @keyframes spinArt { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .album-center {
-      position: absolute; top: 50%; left: 50%;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: #1a0a2e; border: 3px solid rgba(255,255,255,0.2);
-      transform: translate(-50%, -50%); z-index: 3;
-    }
-
-    /* Info cancion */
+    .album-center { position: absolute; top: 50%; left: 50%; width: 36px; height: 36px; border-radius: 50%; background: #1a0a2e; border: 3px solid rgba(255,255,255,0.2); transform: translate(-50%, -50%); z-index: 3; }
     .song-info { text-align: center; padding: 0 36px; margin-bottom: 20px; }
     .song-title { font-family: 'Fredoka One', cursive; font-size: 1.35rem; color: #fff; margin-bottom: 4px; letter-spacing: 0.5px; }
     .song-artist { font-size: 0.82rem; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; }
-
-    /* Barra de acciones */
     .song-actions { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
     .action-btn { background: none; border: none; color: rgba(255,255,255,0.35); font-size: 1rem; transition: color 0.2s, transform 0.2s; padding: 4px; border-radius: 50%; }
     .action-btn:hover { color: #e91e63; transform: scale(1.2); }
     .action-btn.liked { color: #e91e63; }
-
-    /* Progress */
     .progress-section { padding: 0 36px; margin-bottom: 8px; }
-    .progress-bar-wrap {
-      width: 100%; height: 4px; background: rgba(255,255,255,0.12);
-      border-radius: 4px; position: relative;
-      transition: height 0.2s;
-    }
+    .progress-bar-wrap { width: 100%; height: 4px; background: rgba(255,255,255,0.12); border-radius: 4px; position: relative; transition: height 0.2s; margin-bottom: 6px; }
     .progress-bar-wrap:hover { height: 6px; }
-    .progress-fill {
-      height: 100%; width: 0%; border-radius: 4px;
-      background: linear-gradient(90deg, #9c27b0, #e91e63);
-      position: relative; transition: width 0.5s linear;
-    }
-    .progress-fill::after {
-      content: ''; position: absolute; right: -5px; top: 50%;
-      width: 10px; height: 10px; border-radius: 50%;
-      background: #fff; transform: translateY(-50%);
-      box-shadow: 0 0 6px rgba(233,30,99,0.8);
-      opacity: 0; transition: opacity 0.2s;
-    }
+    .progress-fill { height: 100%; width: 0%; border-radius: 4px; background: linear-gradient(90deg, #9c27b0, #e91e63); position: relative; transition: width 0.5s linear; }
+    .progress-fill::after { content: ''; position: absolute; right: -5px; top: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; transform: translateY(-50%); box-shadow: 0 0 6px rgba(233,30,99,0.8); opacity: 0; transition: opacity 0.2s; }
     .progress-bar-wrap:hover .progress-fill::after { opacity: 1; }
-    .progress-bar-wrap { margin-bottom: 6px; }
     .time-row { display: flex; justify-content: space-between; }
     .time-label { font-size: 0.68rem; color: rgba(255,255,255,0.4); font-weight: 700; letter-spacing: 0.5px; }
-
-    /* Controles */
     .controls-section { padding: 16px 36px 28px; display: flex; align-items: center; justify-content: center; gap: 18px; }
     .ctrl { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 1.1rem; padding: 8px; border-radius: 50%; transition: color 0.2s, transform 0.15s; }
     .ctrl:hover { color: #fff; transform: scale(1.15); }
     .ctrl.active-ctrl { color: #e91e63; }
-    .ctrl-play {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: linear-gradient(135deg, #e91e63, #9c27b0);
-      border: none; color: #fff; font-size: 1.3rem;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 6px 24px rgba(233,30,99,0.45);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
+    .ctrl-play { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #e91e63, #9c27b0); border: none; color: #fff; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(233,30,99,0.45); transition: transform 0.15s, box-shadow 0.15s; }
     .ctrl-play:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(233,30,99,0.6); }
-
-    /* Volume */
-    .volume-section {
-      padding: 0 36px 28px;
-      display: flex; align-items: center; gap: 12px;
-    }
+    .volume-section { padding: 0 36px 28px; display: flex; align-items: center; gap: 12px; }
     .vol-icon { color: rgba(255,255,255,0.4); font-size: 0.9rem; min-width: 16px; text-align: center; }
-    .vol-slider {
-      flex: 1; -webkit-appearance: none; appearance: none;
-      height: 3px; border-radius: 3px; outline: none;
-      background: linear-gradient(to right, #9c27b0 70%, rgba(255,255,255,0.15) 70%);
-    }
+    .vol-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 3px; border-radius: 3px; outline: none; background: linear-gradient(to right, #9c27b0 70%, rgba(255,255,255,0.15) 70%); }
     .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px rgba(156,39,176,0.6); }
-
-    /* Status bar */
     .player-status { text-align: center; padding: 0 36px 20px; }
-    .status-pill {
-      display: inline-block; background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12); border-radius: 50px;
-      padding: 4px 14px; font-size: 0.65rem; color: rgba(255,255,255,0.4);
-      letter-spacing: 1.5px; text-transform: uppercase;
-    }
+    .status-pill { display: inline-block; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 50px; padding: 4px 14px; font-size: 0.65rem; color: rgba(255,255,255,0.4); letter-spacing: 1.5px; text-transform: uppercase; }
 
     /* Footer */
     .profile-footer { text-align: center; padding: 20px; font-size: 0.72rem; color: #a07ab0; letter-spacing: 1px; }
@@ -295,24 +229,25 @@
     <div class="profile-header">
       <div class="avatar-wrap">
         <div class="avatar-ring">
-          <img src="https://i.imgur.com/4ovF5ui.gif" alt="Frieren" referrerpolicy="no-referrer">
+          <!-- CAMBIAR: URL del avatar (GIF o imagen) -->
+          <img src="https://i.imgur.com/4ovF5ui.gif" alt="Avatar" referrerpolicy="no-referrer">
         </div>
         <div class="online-dot"></div>
       </div>
       <div class="profile-info">
         <div class="profile-name">Becca</div>
         <div class="profile-handle">@becca · XAT Space</div>
-        <div class="profile-bio">Creadora de perfiles y frames anime. Amante de Frieren, el diseno kawaii y los Xat Spaces personalizados. Si suenas tu espacio, yo lo creo.</div>
+        <div class="profile-bio">Hola! Soy Becca, vendo frames y perfiles personalizados para Xat. Cada diseno es unico y hecho con amor. Escribeme y haz el tuyo.</div>
         <div class="profile-tags">
-          <span class="ptag">Disenadora</span>
-          <span class="ptag pink">Frieren Fan</span>
+          <span class="ptag">Frames</span>
+          <span class="ptag pink">Perfiles Anime</span>
           <span class="ptag cyan">XAT Space</span>
-          <span class="ptag">Anime</span>
         </div>
       </div>
       <div class="profile-stats">
-        <div class="stat-box"><span class="stat-num">2</span><span class="stat-label">Amigos</span></div>
-        <div class="stat-box"><span class="stat-num">50+</span><span class="stat-label">Frames</span></div>
+        <!-- CAMBIAR: Numeros de estadisticas -->
+        <div class="stat-box"><span class="stat-num">0</span><span class="stat-label">Amigos</span></div>
+        <div class="stat-box"><span class="stat-num">0</span><span class="stat-label">Frames</span></div>
         <div class="stat-box"><span class="stat-num">Online</span><span class="stat-label">Estado</span></div>
       </div>
     </div>
@@ -329,16 +264,17 @@
     <!-- INICIO -->
     <div class="tab-content active" id="tab-inicio">
       <div class="content-card">
+        <!-- CAMBIAR: Texto de bienvenida -->
         <div class="card-title">Bienvenida a mi espacio</div>
         <div class="about-text">
-          <p>Hola! Soy <strong>Becca</strong>, creadora de perfiles y frames animados para Xat.</p>
-          <p>Me especializo en hacer espacios personalizados con tu personaje favorito, tu estetica y tu musica. Cada perfil es unico y hecho con mucho amor.</p>
-          <p>Este espacio esta dedicado a <strong>Frieren</strong>, mi anime favorito. Si quieres el tuyo con cualquier otro personaje, escribeme.</p>
+          <p>Hola! Soy <strong>Becca</strong>, vendo frames y perfiles personalizados para Xat.</p>
+          <p>Cada diseno es unico — con tu personaje favorito, tu estetica y tu musica. Escribeme y creamos el tuyo.</p>
         </div>
         <div class="info-grid">
+          <!-- CAMBIAR: Datos del grid -->
           <div class="info-row"><span class="info-key">Servicio</span><span class="info-val">XAT SPACE</span></div>
           <div class="info-row"><span class="info-key">Especialidad</span><span class="info-val">Frames · Perfiles Anime</span></div>
-          <div class="info-row"><span class="info-key">Estilo</span><span class="info-val">Kawaii · Cyber · Anime</span></div>
+          <div class="info-row"><span class="info-key">Estilo</span><span class="info-val">Kawaii · Anime</span></div>
           <div class="info-row"><span class="info-key">Estado</span><span class="info-val">Disponible</span></div>
         </div>
       </div>
@@ -351,7 +287,7 @@
     <!-- AMIGOS -->
     <div class="tab-content" id="tab-amigos">
       <div class="content-card">
-        <div class="card-title">Mis Amigos del Xat <span style="font-size:0.8rem;font-family:'Nunito';font-weight:700;color:#a07ab0">(2)</span></div>
+        <div class="card-title">Mis Amigos del Xat <span style="font-size:0.8rem;font-family:'Nunito';font-weight:700;color:#a07ab0">(3)</span></div>
         <div class="friends-grid">
           <a class="friend-card" href="https://xat.com/TheTakeshi" target="_blank" rel="noopener">
             <div class="friend-avatar-wrap">
@@ -373,6 +309,16 @@
             <div class="friend-status">Amigo</div>
             <span class="friend-xat-badge">xat.com</span>
           </a>
+          <a class="friend-card" href="https://xat.com/sharifkaseo06" target="_blank" rel="noopener">
+            <div class="friend-avatar-wrap">
+              <div class="friend-initial" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">S</div>
+              <span class="friend-online on"></span>
+            </div>
+            <div class="friend-name">sharifkaseo06</div>
+            <div class="friend-id">ID: 1532743866</div>
+            <div class="friend-status">Amigo</div>
+            <span class="friend-xat-badge">xat.com</span>
+          </a>
         </div>
       </div>
     </div>
@@ -382,11 +328,10 @@
       <div class="content-card">
         <div class="card-title">Mi Galeria de Frames</div>
         <div class="gallery-grid">
-          <div class="gallery-item"><img src="https://i.imgur.com/4ovF5ui.gif" alt="Frieren" referrerpolicy="no-referrer"><div class="gallery-caption">Frieren — Frame 01</div></div>
-          <div class="gallery-item"><img src="https://i.imgur.com/3pS9S6D.gif" alt="Pikachu" referrerpolicy="no-referrer"><div class="gallery-caption">Pikachu — Frame 02</div></div>
-          <div class="gallery-item"><img src="https://cdn.myanimelist.net/images/anime/1795/95088l.jpg" alt="Violet"><div class="gallery-caption">Violet — Frame 03</div></div>
-          <div class="gallery-item"><img src="https://cdn.myanimelist.net/images/anime/1286/99889l.jpg" alt="Tanjiro"><div class="gallery-caption">Tanjiro — Frame 04</div></div>
-          <div class="gallery-item"><img src="https://cdn.myanimelist.net/images/anime/1806/126216l.jpg" alt="Chainsaw Man"><div class="gallery-caption">Denji — Frame 05</div></div>
+          <!-- CAMBIAR: URLs de las imagenes y titulos -->
+          <div class="gallery-item"><img src="https://i.imgur.com/4ovF5ui.gif" alt="Frame 1" referrerpolicy="no-referrer"><div class="gallery-caption">Frame 01</div></div>
+          <div class="gallery-item"><img src="https://i.imgur.com/3pS9S6D.gif" alt="Frame 2" referrerpolicy="no-referrer"><div class="gallery-caption">Frame 02</div></div>
+          <div class="gallery-item"><img src="https://cdn.myanimelist.net/images/anime/1795/95088l.jpg" alt="Frame 3"><div class="gallery-caption">Frame 03</div></div>
         </div>
       </div>
     </div>
@@ -394,32 +339,25 @@
     <!-- MUSICA -->
     <div class="tab-content" id="tab-musica">
       <div class="music-app">
-
-        <!-- Caratula -->
         <div class="album-section">
           <div class="album-art-wrap">
             <div class="album-glow"></div>
+            <!-- CAMBIAR: imagen de caratula -->
             <img class="album-art" id="albumArt"
               src="https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg"
               alt="Caratula">
             <div class="album-center"></div>
           </div>
         </div>
-
-        <!-- Info -->
         <div class="song-info">
           <div class="song-title" id="songTitle">Cargando...</div>
-          <div class="song-artist" id="songArtist">Becca's Playlist</div>
+          <div class="song-artist" id="songArtist">Mi Playlist</div>
         </div>
-
-        <!-- Acciones -->
         <div class="song-actions">
           <button class="action-btn" id="btnLike" onclick="toggleLike()" title="Me gusta">♡</button>
           <button class="action-btn" title="Anadir a lista">+</button>
           <button class="action-btn" title="Compartir">&#8599;</button>
         </div>
-
-        <!-- Progreso -->
         <div class="progress-section">
           <div class="progress-bar-wrap" id="progressWrap" onclick="seekTo(event)">
             <div class="progress-fill" id="progressFill"></div>
@@ -429,8 +367,6 @@
             <span class="time-label" id="totalTime">0:00</span>
           </div>
         </div>
-
-        <!-- Controles -->
         <div class="controls-section">
           <button class="ctrl" id="btnShuffle" onclick="toggleShuffle()" title="Aleatorio">&#8652;</button>
           <button class="ctrl" title="Anterior" onclick="scPrev()">&#9664;&#9664;</button>
@@ -438,35 +374,30 @@
           <button class="ctrl" title="Siguiente" onclick="scNext()">&#9654;&#9654;</button>
           <button class="ctrl" id="btnRepeat" onclick="toggleRepeat()" title="Repetir">&#8635;</button>
         </div>
-
-        <!-- Volumen -->
         <div class="volume-section">
           <span class="vol-icon">&#128265;</span>
           <input class="vol-slider" id="volSlider" type="range" min="0" max="100" value="70" oninput="setVolume(this.value)">
           <span class="vol-icon">&#128266;</span>
         </div>
-
-        <!-- Estado -->
         <div class="player-status">
           <span class="status-pill" id="statusPill">Listo para reproducir</span>
         </div>
-
       </div>
     </div>
 
     <!-- SOBRE MI -->
     <div class="tab-content" id="tab-sobre">
       <div class="content-card">
+        <!-- CAMBIAR: Texto sobre mi -->
         <div class="card-title">Sobre mi — Becca</div>
         <div class="about-text">
-          <p>Soy <strong>Becca</strong>, amante del anime, el diseno kawaii y los espacios personalizados en Xat.</p>
-          <p>Me encanta crear perfiles unicos con frames animados, fondos y musica para que cada persona tenga su propio espacio especial. Mi anime favorito es <strong>Sousou no Frieren</strong>.</p>
-          <p>Si quieres un perfil como este con tu personaje favorito y tu estetica, <strong>escribeme</strong>. Hago todo personalizado con mucho amor.</p>
+          <p>Soy <strong>Becca</strong>, disenadora de frames y perfiles para Xat.</p>
+          <p>Me encanta crear espacios unicos con frames animados, fondos y musica. Si quieres tu propio perfil personalizado, <strong>escribeme</strong>.</p>
         </div>
         <div class="info-grid" style="margin-top:20px">
           <div class="info-row"><span class="info-key">Nombre</span><span class="info-val">Becca</span></div>
           <div class="info-row"><span class="info-key">Servicio</span><span class="info-val">XAT SPACE</span></div>
-          <div class="info-row"><span class="info-key">Anime favorito</span><span class="info-val">Sousou no Frieren</span></div>
+          <div class="info-row"><span class="info-key">Servicio</span><span class="info-val">Frames · Perfiles</span></div>
           <div class="info-row"><span class="info-key">Disponible</span><span class="info-val">Si — DM por Xat</span></div>
         </div>
       </div>
@@ -481,16 +412,14 @@
     </div>
   </div>
 
-  <!-- SoundCloud iframe oculto (SC no requiere visibilidad para reproducir) -->
+  <!-- CAMBIAR: URL de SoundCloud — pega el link de la cancion de soundcloud.com -->
   <iframe id="sc-iframe"
     src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/fuglymevs/this-feeling-my-lane&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false&buying=false&sharing=false&download=false&show_playcount=false"
     style="display:none;" allow="autoplay">
   </iframe>
 
-  <!-- SoundCloud Widget API -->
   <script src="https://w.soundcloud.com/player/api.js"></script>
   <script>
-    // ── Tabs ──
     function showTab(name, btn) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -498,7 +427,6 @@
       btn.classList.add('active');
     }
 
-    // ── Cursor ──
     const dot  = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     const star = document.getElementById('cursorStar');
@@ -526,8 +454,7 @@
     document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
     document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
 
-    // ── Petals ──
-    ['🌸','✨','❆','🌷','❇'].forEach((p, i) => {
+    ['🌸','✨','❆','🌷','❇'].forEach((p) => {
       const el = document.createElement('div');
       el.className = 'petal'; el.innerHTML = p;
       el.style.left = (Math.random() * 100) + 'vw';
@@ -537,7 +464,6 @@
       document.body.appendChild(el);
     });
 
-    // ══ SoundCloud Player ══
     let scWidget, isPlaying = false, trackDuration = 0;
     let shuffleOn = false, repeatOn = false, liked = false;
 
@@ -554,28 +480,17 @@
 
     window.addEventListener('load', function () {
       scWidget = SC.Widget(document.getElementById('sc-iframe'));
-
       scWidget.bind(SC.Widget.Events.READY, function () {
-        scWidget.setVolume(70);
-        updateVolSlider(70);
-        setStatus('Listo para reproducir');
-
+        scWidget.setVolume(70); updateVolSlider(70); setStatus('Listo para reproducir');
         scWidget.getCurrentSound(function (sound) {
           if (!sound) return;
-          document.getElementById('songTitle').textContent  = sound.title  || 'This Feeling';
-          document.getElementById('songArtist').textContent = sound.user ? sound.user.username : 'fuglymevs';
-          const art = sound.artwork_url
-            ? sound.artwork_url.replace('-large', '-t500x500')
-            : 'https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg';
-          document.getElementById('albumArt').src = art;
+          document.getElementById('songTitle').textContent  = sound.title  || 'Mi cancion';
+          document.getElementById('songArtist').textContent = sound.user ? sound.user.username : 'Artista';
+          const art = sound.artwork_url ? sound.artwork_url.replace('-large', '-t500x500') : '';
+          if (art) document.getElementById('albumArt').src = art;
         });
-
-        scWidget.getDuration(function (dur) {
-          trackDuration = dur;
-          document.getElementById('totalTime').textContent = fmt(dur);
-        });
+        scWidget.getDuration(function (dur) { trackDuration = dur; document.getElementById('totalTime').textContent = fmt(dur); });
       });
-
       scWidget.bind(SC.Widget.Events.PLAY, function () {
         isPlaying = true;
         document.getElementById('btnPlay').innerHTML = '&#9646;&#9646;';
@@ -583,14 +498,12 @@
         setStatus('Reproduciendo');
         scWidget.getDuration(function (d) { trackDuration = d; document.getElementById('totalTime').textContent = fmt(d); });
       });
-
       scWidget.bind(SC.Widget.Events.PAUSE, function () {
         isPlaying = false;
         document.getElementById('btnPlay').innerHTML = '&#9654;';
         document.getElementById('albumArt').classList.remove('spinning');
         setStatus('Pausado');
       });
-
       scWidget.bind(SC.Widget.Events.FINISH, function () {
         isPlaying = false;
         document.getElementById('btnPlay').innerHTML = '&#9654;';
@@ -598,43 +511,24 @@
         setStatus('Terminado');
         if (repeatOn) scWidget.seekTo(0);
       });
-
       scWidget.bind(SC.Widget.Events.PLAY_PROGRESS, function (e) {
-        const pct = e.relativePosition * 100;
-        document.getElementById('progressFill').style.width = pct + '%';
+        document.getElementById('progressFill').style.width = (e.relativePosition * 100) + '%';
         document.getElementById('currentTime').textContent  = fmt(e.currentPosition);
         if (trackDuration) document.getElementById('totalTime').textContent = fmt(trackDuration);
       });
     });
 
-    function togglePlay() {
-      if (!scWidget) return;
-      if (isPlaying) scWidget.pause(); else scWidget.play();
-    }
-
+    function togglePlay() { if (!scWidget) return; if (isPlaying) scWidget.pause(); else scWidget.play(); }
     function seekTo(e) {
       if (!scWidget || !trackDuration) return;
       const rect = document.getElementById('progressWrap').getBoundingClientRect();
-      const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      scWidget.seekTo(pct * trackDuration);
+      scWidget.seekTo(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * trackDuration);
     }
-
-    function setVolume(v) {
-      if (scWidget) scWidget.setVolume(parseInt(v));
-      updateVolSlider(v);
-    }
-
+    function setVolume(v) { if (scWidget) scWidget.setVolume(parseInt(v)); updateVolSlider(v); }
     function scPrev() { if (scWidget) scWidget.seekTo(0); }
     function scNext() { if (scWidget && trackDuration) scWidget.seekTo(trackDuration - 1000); }
-
-    function toggleShuffle() {
-      shuffleOn = !shuffleOn;
-      document.getElementById('btnShuffle').classList.toggle('active-ctrl', shuffleOn);
-    }
-    function toggleRepeat() {
-      repeatOn = !repeatOn;
-      document.getElementById('btnRepeat').classList.toggle('active-ctrl', repeatOn);
-    }
+    function toggleShuffle() { shuffleOn = !shuffleOn; document.getElementById('btnShuffle').classList.toggle('active-ctrl', shuffleOn); }
+    function toggleRepeat() { repeatOn = !repeatOn; document.getElementById('btnRepeat').classList.toggle('active-ctrl', repeatOn); }
     function toggleLike() {
       liked = !liked;
       const b = document.getElementById('btnLike');
@@ -642,7 +536,6 @@
       b.classList.toggle('liked', liked);
     }
 
-    // Init volume slider gradient
     updateVolSlider(70);
   </script>
 </body>
