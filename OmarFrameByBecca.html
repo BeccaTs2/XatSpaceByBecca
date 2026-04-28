@@ -507,28 +507,28 @@
         title: 'Vivo Pensando en Ti',
         artist: 'Felipe Peláez ft. Maluma',
         duration: 225,
-        url: './music/vivo-pensando-en-ti.mp3',
+        url: 'music/vivo-pensando-en-ti.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg'
       },
       {
         title: 'Abatido',
         artist: 'Farruko ft Makaco El Cerebro',
         duration: 245,
-        url: './music/abatido.mp3',
+        url: 'music/abatido.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000001-000000-t500x500.jpg'
       },
       {
         title: 'Dígale',
         artist: 'David Bisbal',
         duration: 198,
-        url: './music/digale.mp3',
+        url: 'music/digale.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000002-000000-t500x500.jpg'
       },
       {
         title: 'Adán y Eva',
         artist: 'Paulo Londra',
         duration: 210,
-        url: './music/adan-y-eva.mp3',
+        url: 'music/adan-y-eva.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000003-000000-t500x500.jpg'
       }
     ];
@@ -606,6 +606,7 @@
       currentTrackIdx = idx;
       const track = playlist[idx];
       
+      audio.pause();
       audio.src = track.url;
       audio.load();
       document.getElementById('songTitle').textContent = track.title;
@@ -634,7 +635,7 @@
       // Event listeners del audio
       audio.addEventListener('play', () => {
         isPlaying = true;
-        document.getElementById('btnPlay').innerHTML = '||';
+        document.getElementById('btnPlay').innerHTML = '&#10074;&#10074;';
         document.getElementById('albumArt').classList.add('spinning');
         setStatus('Reproduciendo');
       });
@@ -660,11 +661,11 @@
       });
 
       audio.addEventListener('error', (e) => {
-        const errorMsg = "Error: Archivo no encontrado";
-        console.error(errorMsg, audio.src);
-        setStatus(errorMsg);
+        console.error("Error cargando:", audio.src);
+        setStatus("Error: No se encontró el archivo");
         isPlaying = false;
         document.getElementById('btnPlay').innerHTML = '&#9654;';
+        document.getElementById('albumArt').classList.remove('spinning');
       });
 
       audio.addEventListener('timeupdate', () => {
@@ -696,7 +697,7 @@
     });
 
     function togglePlay() { 
-      if (!audio.src || audio.src === "" || audio.src.includes('undefined')) {
+      if (!audio.src || audio.src === "" || audio.src.endsWith('undefined')) {
         setStatus("Error: Pista no válida");
         return;
       }
@@ -704,8 +705,9 @@
         audio.pause();
       } else {
         audio.play().catch(err => {
-          console.error("Playback failed for:", audio.src, err);
-          setStatus("Error: Archivo no encontrado");
+          console.error("Error de reproducción:", err);
+          if(err.name === 'NotAllowedError') setStatus("Haz clic para activar audio");
+          else setStatus("Error: No se pudo cargar");
         });
       }
     }
@@ -723,17 +725,17 @@
     }
 
     function scPrev() { 
-      if (currentTrackIdx > 0) {
-        loadTrack(currentTrackIdx - 1);
-      audio.play().catch(e => console.warn("Error en pista anterior"));
-      }
+      let nextIdx = currentTrackIdx - 1;
+      if (nextIdx < 0) nextIdx = playlist.length - 1; // Volver al final
+      loadTrack(nextIdx);
+      audio.play().catch(() => {});
     }
 
     function scNext() { 
-      if (currentTrackIdx < playlist.length - 1) {
-        loadTrack(currentTrackIdx + 1);
-      audio.play().catch(e => console.warn("Error en siguiente pista"));
-      }
+      let nextIdx = currentTrackIdx + 1;
+      if (nextIdx >= playlist.length) nextIdx = 0; // Volver al inicio
+      loadTrack(nextIdx);
+      audio.play().catch(() => {});
     }
 
     function toggleShuffle() {
