@@ -6,9 +6,10 @@
   <title>Omarβ⋆•͜͡͡͡λ*｡ · XAT SPACE —</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-    html, body { width: 100%; min-height: 100%; overflow-x: hidden; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; }
 
+    /* ── Cursor ── */
     .cursor-dot {
       position: fixed; pointer-events: none; z-index: 99999; top: 0; left: 0;
       width: 12px; height: 12px; background: #fff;
@@ -32,7 +33,7 @@
     body.clicking .cursor-ring { width: 42px; height: 42px; border-color: #fff; }
 
     body {
-      background: radial-gradient(circle at 20% 0%, #111 0%, #161616 45%, #0d0d0d 100%); /* Fondo degradado */
+      background: radial-gradient(circle at 20% 0%, #111 0%, #161616 45%, #0d0d0d 100%);
       font-family: 'Nunito', sans-serif; color: #e5e5e5; overflow-x: hidden;
     }
     body::before {
@@ -50,6 +51,7 @@
     .petal { position: fixed; font-size: 14px; pointer-events: none; animation: petalFall 7s linear infinite; top: -40px; z-index: 0; color: #fff; }
     @keyframes petalFall { to { transform: translateY(110vh) rotate(540deg); opacity: 0; } }
 
+    /* ── Banner ── */
     .service-banner {
       background: linear-gradient(90deg, #111, #333, #111);
       background-size: 200% auto; animation: bannerShift 4s linear infinite;
@@ -61,6 +63,7 @@
 
     .wrapper { max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; position: relative; z-index: 10; }
 
+    /* ── Profile Header ── */
     .profile-header {
       background: rgba(255,255,255,0.05); backdrop-filter: blur(16px);
       border: 1.5px solid rgba(255,255,255,0.08); border-radius: 24px;
@@ -75,6 +78,7 @@
     }
     @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     .avatar-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; border: 4px solid #fff; }
+    .online-dot { position: absolute; bottom: 6px; right: 6px; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 3px solid #333; box-shadow: 0 0 12px rgba(255,255,255,0.35); }
     .profile-info { flex: 1; min-width: 200px; }
     .profile-name { font-family: 'Fredoka One', cursive; font-size: 1.9rem; color: #fff; text-shadow: 2px 2px 0 rgba(0,0,0,0.45), 0 0 20px rgba(255,255,255,0.08); margin-bottom: 4px; }
     .profile-handle { font-size: 0.78rem; color: #ccc; letter-spacing: 1px; margin-bottom: 10px; font-weight: 700; }
@@ -92,6 +96,7 @@
     .stat-num { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: #fff; display: block; }
     .stat-label { font-size: 0.65rem; color: #bbb; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
 
+    /* ── Tab Nav ── */
     .tab-nav {
       background: rgba(255,255,255,0.06); backdrop-filter: blur(12px);
       border: 1.5px solid rgba(255,255,255,0.08); border-radius: 18px;
@@ -139,12 +144,14 @@
     .friend-status { font-size: 0.66rem; color: #ccc; }
     .friend-xat-badge { display: inline-block; margin-top: 6px; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: #ddd; border-radius: 50px; padding: 2px 8px; }
 
+    /* ── Galeria ── */
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
     .gallery-item { border-radius: 14px; overflow: hidden; border: 2px solid rgba(255,255,255,0.08); transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; position: relative; background: #111; }
     .gallery-item:hover { transform: scale(1.04); box-shadow: 0 8px 28px rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
     .gallery-item img { width: 100%; height: 160px; object-fit: cover; display: block; filter: grayscale(100%); }
     .gallery-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: #fff; padding: 20px 10px 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
 
+    /* ══ MUSIC PLAYER ══ */
     .music-app {
       background: linear-gradient(145deg, #0d0d0d 0%, #121212 35%, #0f0f0f 100%);
       border-radius: 28px; overflow: hidden;
@@ -166,7 +173,7 @@
       gap: 22px;
       align-items: start;
     }
-    .album-section { 
+    .album-section {
       padding: 24px;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
@@ -176,6 +183,7 @@
       align-items: center;
       gap: 20px;
     }
+    .album-art-wrap { width: 100%; max-width: 240px; height: 240px; border-radius: 28px; overflow: hidden; position: relative; }
     .album-glow { position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 55%); mix-blend-mode: screen; pointer-events: none; }
     .album-art { width: 100%; height: 100%; object-fit: cover; display: block; }
     .album-info { text-align: center; }
@@ -193,6 +201,7 @@
     .track-name { font-size: 0.92rem; font-weight: 700; color: #fff; }
     .track-duration { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
     .track-item.active .track-name { color: #1ed760; }
+    .player-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 28px; display: grid; gap: 20px; }
     .player-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .player-badge { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.8px; color: #1ed760; font-weight: 800; }
     .player-subtitle { color: #ccc; letter-spacing: 0.8px; font-size: 0.82rem; }
@@ -210,6 +219,9 @@
     .player-status { text-align: left; padding: 0; }
     .status-pill { background: rgba(30,215,96,0.12); border-color: rgba(30,215,96,0.25); color: #b2f7c8; }
 
+    /* Footer */
+
+    /* Footer */
     .profile-footer { text-align: center; padding: 20px; font-size: 0.72rem; color: #bbb; letter-spacing: 1px; }
     .profile-footer span { color: #fff; font-weight: 700; }
 
@@ -228,6 +240,7 @@
   </style>
 </head>
 <body>
+  <!-- Cursor -->
   <div class="cursor-dot"  id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   <div class="cursor-star" id="cursorStar">✦</div>
@@ -381,6 +394,7 @@
           <div>
             <div class="album-section"> 
               <div class="album-art-wrap">
+                <div class="album-glow"></div>
                 <img class="album-art" id="albumArt"
                   src="https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg" alt="Caratula">
               </div>
@@ -483,6 +497,7 @@
     </div>
   </div>
 
+  <!-- Reproductor HTML5 nativo (compatible con XAT Frames) -->
   <audio id="audioPlayer" style="display:none;"></audio>
 
   <script>
@@ -492,28 +507,28 @@
         title: 'Vivo Pensando en Ti',
         artist: 'Felipe Peláez ft. Maluma',
         duration: 225,
-        url: './music/vivo-pensando-en-ti.mp3',
+        url: 'music/vivo-pensando-en-ti.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg'
       },
       {
         title: 'Abatido',
         artist: 'Farruko ft Makaco El Cerebro',
         duration: 245,
-        url: './music/abatido.mp3',
+        url: 'music/abatido.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000001-000000-t500x500.jpg'
       },
       {
         title: 'Dígale',
         artist: 'David Bisbal',
         duration: 198,
-        url: './music/digale.mp3',
+        url: 'music/digale.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000002-000000-t500x500.jpg'
       },
       {
         title: 'Adán y Eva',
         artist: 'Paulo Londra',
         duration: 210,
-        url: './music/adan-y-eva.mp3',
+        url: 'music/adan-y-eva.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000003-000000-t500x500.jpg'
       }
     ];
@@ -531,6 +546,7 @@
       btn.classList.add('active');
     }
 
+    // ── Cursor ──
     const dot  = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     const star = document.getElementById('cursorStar');
@@ -568,6 +584,7 @@
       document.body.appendChild(el);
     });
 
+    // ── Stars ──
     function fmt(ms) {
       const s = Math.floor(ms / 1000);
       const m = Math.floor(s / 60), sec = s % 60;
@@ -583,12 +600,12 @@
         `linear-gradient(to right,#ddd ${v}%,rgba(255,255,255,0.15) ${v}%)`;
     }
 
+    // ══ HTML5 Audio Player ══
     function loadTrack(idx) { 
       if (idx < 0 || idx >= playlist.length) return;
       currentTrackIdx = idx;
       const track = playlist[idx];
       
-      console.log("Intentando cargar audio desde:", track.url); // ¡Importante para depurar!
       audio.src = track.url;
       document.getElementById('songTitle').textContent = track.title;
       document.getElementById('songArtist').textContent = track.artist;
@@ -616,7 +633,7 @@
       // Event listeners del audio
       audio.addEventListener('play', () => {
         isPlaying = true;
-        document.getElementById('btnPlay').innerHTML = '&#10074;&#10074;'; // Icono de pausa
+        document.getElementById('btnPlay').innerHTML = '||';
         document.getElementById('albumArt').classList.add('spinning');
         setStatus('Reproduciendo');
       });
@@ -642,19 +659,11 @@
       });
 
       audio.addEventListener('error', (e) => {
-        const detailedErrorMsg = "Error: No se pudo cargar el archivo de audio. Revisa la consola (F12) para ver la URL exacta que está fallando.";
-        console.error("Error cargando audio:", audio.src, e);
-        setStatus(detailedErrorMsg);
+        const errorMsg = "Error: Archivo no encontrado";
+        console.error(errorMsg, audio.src);
+        setStatus(errorMsg);
         isPlaying = false;
         document.getElementById('btnPlay').innerHTML = '&#9654;';
-        // Opcionalmente, podrías intentar cargar la siguiente pista automáticamente
-        // if (currentTrackIdx < playlist.length - 1) {
-        //   console.log("Intentando cargar la siguiente pista debido a un error.");
-        //   scNext();
-        // } else {
-        //   console.log("No hay más pistas para intentar cargar.");
-        //   setStatus("Error: No se pudo cargar ninguna pista.");
-        // }
       });
 
       audio.addEventListener('timeupdate', () => {
@@ -688,8 +697,8 @@
         audio.pause();
       } else {
         audio.play().catch(err => {
-          console.error("Error al intentar reproducir:", err);
-          setStatus("Error: No se pudo reproducir. Intenta de nuevo.");
+          console.error("Playback failed:", err);
+          setStatus("Error: No se pudo cargar");
         });
       }
     }
@@ -737,14 +746,6 @@
       b.classList.toggle('liked', liked);
     }
     updateVolSlider(70); 
-
-    // Deshabilitar inspección de elementos
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('keydown', event => {
-      if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J')) || (event.metaKey && event.altKey && event.key === 'I')) {
-        event.preventDefault();
-      }
-    });
   </script>
 </body>
 </html>
