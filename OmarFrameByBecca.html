@@ -498,7 +498,7 @@
   </div>
 
   <!-- Reproductor HTML5 nativo (compatible con XAT Frames) -->
-  <audio id="audioPlayer" style="display:none;"></audio>
+  <audio id="audioPlayer" preload="metadata" style="display:none;"></audio>
 
   <script>
     // ── Playlist de canciones ──
@@ -507,28 +507,28 @@
         title: 'Vivo Pensando en Ti',
         artist: 'Felipe Peláez ft. Maluma',
         duration: 225,
-        url: 'music/vivo-pensando-en-ti.mp3',
+        url: './music/vivo-pensando-en-ti.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000000-000000-t500x500.jpg'
       },
       {
         title: 'Abatido',
         artist: 'Farruko ft Makaco El Cerebro',
         duration: 245,
-        url: 'music/abatido.mp3',
+        url: './music/abatido.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000001-000000-t500x500.jpg'
       },
       {
         title: 'Dígale',
         artist: 'David Bisbal',
         duration: 198,
-        url: 'music/digale.mp3',
+        url: './music/digale.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000002-000000-t500x500.jpg'
       },
       {
         title: 'Adán y Eva',
         artist: 'Paulo Londra',
         duration: 210,
-        url: 'music/adan-y-eva.mp3',
+        url: './music/adan-y-eva.mp3',
         art: 'https://i1.sndcdn.com/artworks-000000000000003-000000-t500x500.jpg'
       }
     ];
@@ -607,6 +607,7 @@
       const track = playlist[idx];
       
       audio.src = track.url;
+      audio.load();
       document.getElementById('songTitle').textContent = track.title;
       document.getElementById('songArtist').textContent = track.artist;
       
