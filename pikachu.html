@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pikachu Xatframe</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+
+    body {
+      background: linear-gradient(180deg,
+        #08305C 0%, #0F4C81 8%, #1A6BAD 20%,
+        #3089C8 36%, #56ADE0 54%, #84C8EC 72%,
+        #B2DFF5 88%, #D2EEF9 100%
+      );
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 7px;
+      border: 2px solid rgba(255,210,0,.38);
+      border-radius: 10px;
+      pointer-events: none; z-index: 200;
+      box-shadow: inset 0 0 40px rgba(255,215,0,.05), 0 0 25px rgba(255,215,0,.07);
+    }
+
+    .sun {
+      position: absolute; top: -90px; right: 22%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle,
+        rgba(255,252,140,.55) 0%, rgba(255,220,70,.22) 38%,
+        rgba(255,180,40,.07) 62%, transparent 78%);
+      border-radius: 50%; pointer-events: none;
+    }
+
+    .cloud {
+      position: absolute; pointer-events: none;
+      animation: cloudDrift var(--dur) linear var(--delay) infinite;
+    }
+    @keyframes cloudDrift {
+      from { transform: translateX(-350px); }
+      to   { transform: translateX(calc(100vw + 350px)); }
+    }
+
+    .title {
+      position: absolute; top: 18px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: clamp(1.1rem, 3vw, 2rem);
+      color: #FFE94A; letter-spacing: 6px; white-space: nowrap;
+      text-shadow: 0 0 18px rgba(255,220,0,.85), 0 0 40px rgba(255,180,0,.35),
+                   0 3px 8px rgba(0,40,100,.55), 2px 2px 0 rgba(0,0,0,.22);
+      pointer-events: none; z-index: 10;
+    }
+
+    /* Pikachu centrado */
+    .pika-stage {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex; align-items: center; justify-content: center;
+      animation: gentleFloat 5s ease-in-out infinite;
+    }
+    @keyframes gentleFloat {
+      0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+      50%       { transform: translate(-50%, -50%) translateY(-10px); }
+    }
+
+    .pika-frame {
+      position: relative; z-index: 3;
+      width: clamp(230px, 32vw, 380px);
+      height: clamp(230px, 32vw, 380px);
+      border-radius: 50%; overflow: hidden;
+      border: 5px solid #FFD700;
+      outline: 3px solid rgba(255,140,0,.55);
+      outline-offset: 4px;
+      box-shadow:
+        inset 0 0 30px rgba(255,215,0,.18),
+        0 0 28px  rgba(255,215,0,.75),
+        0 0 60px  rgba(255,180,0,.40),
+        0 0 110px rgba(255,140,0,.20),
+        0 20px 45px rgba(0,0,0,.35);
+    }
+
+    .pika-frame img {
+      display: block; width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* Anillo decorativo */
+    .pika-ring {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 4;
+    }
+
+    /* Adornos N/S/E/W */
+    .gem { position: absolute; z-index: 5; pointer-events: none; }
+
+    /* Pokébola decorativa */
+    .pokeball {
+      position: absolute; border-radius: 50%; overflow: hidden;
+      border: 4px solid rgba(0,0,0,.12); pointer-events: none;
+    }
+    .pb-t { position: absolute; inset: 0 0 50%;    background: rgba(210,50,50,.13); }
+    .pb-b { position: absolute; inset: 50% 0 0;    background: rgba(255,255,255,.13); }
+    .pb-m { position: absolute; top: 50%; left: 0; right: 0; height: 5px; background: rgba(0,0,0,.12); transform: translateY(-50%); }
+    .pb-c { position: absolute; top: 50%; left: 50%; width: 24%; height: 24%; background: rgba(255,255,255,.25); border-radius: 50%; border: 3px solid rgba(0,0,0,.12); transform: translate(-50%,-50%); }
+
+    /* Rayos decorativos */
+    .bolt { position: absolute; pointer-events: none; }
+
+    /* Césped */
+    .ground { position: absolute; bottom: 0; left: 0; right: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <div class="sun"></div>
+  <div class="title">PIKA</div>
+
+  <!-- Pokébola grande izq -->
+  <div class="pokeball" style="width:200px;height:200px;bottom:50px;left:24px;opacity:.88;">
+    <div class="pb-t"></div><div class="pb-b"></div>
+    <div class="pb-m"></div><div class="pb-c"></div>
+  </div>
+
+  <!-- Pokébola pequeña der -->
+  <div class="pokeball" style="width:85px;height:85px;top:52px;right:24px;opacity:.5;">
+    <div class="pb-t"></div><div class="pb-b"></div>
+    <div class="pb-m" style="height:3px;"></div><div class="pb-c"></div>
+  </div>
+
+  <!-- Rayos estáticos -->
+  <svg class="bolt" style="top:36px;left:16px;width:50px;opacity:.14;" viewBox="0 0 60 120">
+    <polygon points="38,0 14,58 32,58 8,120 52,46 34,46 58,0" fill="#FFD700"/>
+  </svg>
+  <svg class="bolt" style="top:36px;right:16px;width:50px;opacity:.14;transform:scaleX(-1);" viewBox="0 0 60 120">
+    <polygon points="38,0 14,58 32,58 8,120 52,46 34,46 58,0" fill="#FFD700"/>
+  </svg>
+
+  <!-- Pikachu centrado con marco oval -->
+  <div class="pika-stage" id="pikaStage">
+    <div class="pika-ring" id="pikaRing"></div>
+
+    <!-- Rayo Norte -->
+    <svg class="gem" id="gemN" viewBox="0 0 40 55">
+      <polygon points="20,0 8,28 16,28 4,55 28,22 19,22 32,0" fill="#FFD700" filter="url(#gw)"/>
+      <defs><filter id="gw"><feGaussianBlur stdDeviation="2.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    </svg>
+
+    <!-- Rayo Sur -->
+    <svg class="gem" id="gemS" viewBox="0 0 40 55">
+      <polygon points="20,0 8,28 16,28 4,55 28,22 19,22 32,0" fill="#FFD700" filter="url(#gw2)"/>
+      <defs><filter id="gw2"><feGaussianBlur stdDeviation="2.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    </svg>
+
+    <!-- Estrella Oeste -->
+    <svg class="gem" id="gemW" viewBox="0 0 40 40">
+      <polygon points="20,0 23,14 38,14 26,22 30,38 20,29 10,38 14,22 2,14 17,14" fill="#FFD700" filter="url(#gw3)"/>
+      <defs><filter id="gw3"><feGaussianBlur stdDeviation="2.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    </svg>
+
+    <!-- Estrella Este -->
+    <svg class="gem" id="gemE" viewBox="0 0 40 40">
+      <polygon points="20,0 23,14 38,14 26,22 30,38 20,29 10,38 14,22 2,14 17,14" fill="#FFD700" filter="url(#gw4)"/>
+      <defs><filter id="gw4"><feGaussianBlur stdDeviation="2.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    </svg>
+
+    <div class="pika-frame" id="pikaFrame">
+      <img src="pika.gif" alt="Pikachu">
+    </div>
+  </div>
+
+  <!-- Césped -->
+  <div class="ground" id="ground"></div>
+
+  <script>
+    const frameSize = Math.min(Math.max(Math.min(window.innerWidth, window.innerHeight) * 0.38, 230), 370);
+    const gemSize   = Math.round(frameSize * 0.13);
+    const groundH   = Math.min(Math.max(window.innerHeight * 0.13, 75), 125);
+
+    const frame = document.getElementById('pikaFrame');
+    frame.style.width  = frameSize + 'px';
+    frame.style.height = frameSize + 'px';
+
+    const gemN = document.getElementById('gemN');
+    gemN.style.width  = gemSize + 'px';
+    gemN.style.height = Math.round(gemSize * 1.38) + 'px';
+    gemN.style.cssText += ';position:absolute;top:0;left:50%;transform:translate(-50%,-100%) translateY(6px)';
+
+    const gemS = document.getElementById('gemS');
+    gemS.style.width  = gemSize + 'px';
+    gemS.style.height = Math.round(gemSize * 1.38) + 'px';
+    gemS.style.cssText += ';position:absolute;bottom:0;left:50%;transform:translate(-50%,100%) translateY(-6px) rotate(180deg)';
+
+    const gemW = document.getElementById('gemW');
+    gemW.style.width  = gemSize + 'px';
+    gemW.style.height = gemSize + 'px';
+    gemW.style.cssText += ';position:absolute;left:0;top:50%;transform:translate(-100%,-50%) translateX(6px)';
+
+    const gemE = document.getElementById('gemE');
+    gemE.style.width  = gemSize + 'px';
+    gemE.style.height = gemSize + 'px';
+    gemE.style.cssText += ';position:absolute;right:0;top:50%;transform:translate(100%,-50%) translateX(-6px)';
+
+    /* Anillo exterior */
+    const ringSize = frameSize + 48;
+    const r = ringSize / 2 - 4;
+    const cx = ringSize / 2;
+    const ring = document.getElementById('pikaRing');
+    ring.style.width  = ringSize + 'px';
+    ring.style.height = ringSize + 'px';
+    ring.innerHTML = '<svg width="' + ringSize + '" height="' + ringSize + '" viewBox="0 0 ' + ringSize + ' ' + ringSize + '" xmlns="http://www.w3.org/2000/svg">'
+      + '<circle cx="' + cx + '" cy="' + cx + '" r="' + r + '" fill="none" stroke="rgba(255,215,0,.35)" stroke-width="1.8" stroke-dasharray="6 10"/>'
+      + '<circle cx="' + cx + '" cy="' + cx + '" r="' + (r-8) + '" fill="none" stroke="rgba(255,200,0,.18)" stroke-width="1"/>'
+      + [45,135,225,315].map(function(deg){
+          const rad = deg * Math.PI / 180;
+          const px  = (cx + r * Math.cos(rad)).toFixed(1);
+          const py  = (cx + r * Math.sin(rad)).toFixed(1);
+          return '<circle cx="' + px + '" cy="' + py + '" r="3.5" fill="#FFD700" opacity=".7" filter="url(#rGlow)"/>';
+        }).join('')
+      + '<defs><filter id="rGlow" x="-80%" y="-80%" width="260%" height="260%">'
+      + '<feGaussianBlur stdDeviation="3" result="b"/>'
+      + '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>';
+
+    /* Césped */
+    var ground = document.getElementById('ground');
+    ground.style.height = (groundH + 28) + 'px';
+    var steps = 90;
+    var pts = [];
+    for (var i = 0; i <= steps; i++) {
+      var xv = (i / steps) * 110;
+      var yv = 5 + Math.sin(i * 0.85) * 3.2 + Math.sin(i * 1.9) * 1.8 + Math.random() * 1.5;
+      pts.push(xv.toFixed(1) + ',' + yv.toFixed(1));
+    }
+    var wavePath = 'M-2,30 L' + pts.join(' L') + ' L112,30 L112,65 L-2,65 Z';
+    var flowers = '';
+    for (var i = 0; i < 22; i++) {
+      var fx = (Math.random() * 108 + 1).toFixed(1);
+      var fy = (28 + Math.random() * 10).toFixed(1);
+      var colors = ['#FF6B9D','#FFD700','#FF8C42','#C8F76F','#A8EDEA','#ffffff'];
+      var fc = colors[Math.floor(Math.random() * 6)];
+      flowers += '<circle cx="' + fx + '" cy="' + fy + '" r="1.5" fill="' + fc + '" opacity="0.8"/>';
+    }
+    ground.innerHTML = '<svg width="100%" height="100%" viewBox="-2 0 114 65" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'
+      + '<defs><linearGradient id="gGrass" x1="0" y1="0" x2="0" y2="1">'
+      + '<stop offset="0%" stop-color="#5CC85C"/>'
+      + '<stop offset="55%" stop-color="#3B8C3B"/>'
+      + '<stop offset="100%" stop-color="#1E5E1E"/>'
+      + '</linearGradient></defs>'
+      + '<path d="' + wavePath + '" fill="url(#gGrass)"/>'
+      + flowers + '</svg>';
+
+    /* Nubes */
+    var cloudShapes = [
+      '<g><ellipse cx="115" cy="65" rx="105" ry="20" fill="white"/><ellipse cx="75" cy="52" rx="55" ry="35" fill="white"/><ellipse cx="130" cy="50" rx="52" ry="32" fill="white"/><ellipse cx="105" cy="36" rx="40" ry="32" fill="white"/></g>',
+      '<g><ellipse cx="85" cy="52" rx="80" ry="18" fill="white"/><ellipse cx="60" cy="42" rx="42" ry="30" fill="white"/><ellipse cx="100" cy="38" rx="38" ry="28" fill="white"/></g>',
+    ];
+    var cloudCfg = [
+      {y:7,dur:72,delay:0,op:.85,w:230,v:0},
+      {y:17,dur:98,delay:-38,op:.70,w:170,v:1},
+      {y:4,dur:84,delay:-55,op:.78,w:260,v:0},
+      {y:25,dur:118,delay:-72,op:.60,w:145,v:1},
+    ];
+    var vbs = ['0 0 230 80','0 0 170 80'];
+    for (var j = 0; j < cloudCfg.length; j++) {
+      var cf = cloudCfg[j];
+      var d = document.createElement('div');
+      d.className = 'cloud';
+      d.style.cssText = 'top:'+cf.y+'%;opacity:'+cf.op+';--dur:'+cf.dur+'s;--delay:'+cf.delay+'s;';
+      d.innerHTML = '<svg width="'+cf.w+'" viewBox="'+vbs[cf.v]+'" xmlns="http://www.w3.org/2000/svg">'+cloudShapes[cf.v]+'</svg>';
+      document.body.insertBefore(d, document.querySelector('.title'));
+    }
+
+    /* Estrellas */
+    for (var k = 0; k < 30; k++) {
+      var st = document.createElement('div');
+      var sz = Math.random() * 2.5 + 0.8;
+      st.style.cssText = 'position:absolute;width:'+sz+'px;height:'+sz+'px;top:'+(Math.random()*45)+'%;left:'+(Math.random()*100)+'%;background:white;border-radius:50%;opacity:'+(0.25+Math.random()*0.55).toFixed(2)+';pointer-events:none;';
+      document.body.insertBefore(st, document.querySelector('.title'));
+    }
+  </script>
+</body>
+</html>
