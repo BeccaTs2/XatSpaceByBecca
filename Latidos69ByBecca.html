@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Latidos69 · Streaming Radio · by Becca</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none!important}
+
+:root{
+  --bg:#090303;
+  --surf:#130606;
+  --surf2:#1a0909;
+  --red:#CE1126;
+  --gold:#D4A017;
+  --cream:#f0ece4;
+  --text:#f5edea;
+  --muted:#7a5050;
+  --max-w:860px;
+}
+
+html,body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Exo 2',sans-serif;
+  font-size:15px;
+  overflow-x:hidden;
+}
+
+/* RADIAL BG */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 70%,rgba(206,17,38,.06) 0%,transparent 65%),
+    radial-gradient(ellipse 60% 40% at 85% 25%,rgba(212,160,23,.05) 0%,transparent 65%),
+    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.014) 40px),
+    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.014) 40px);
+  pointer-events:none;z-index:0;
+}
+
+/* CURSOR */
+#cur-dot,#cur-ring{
+  position:fixed;border-radius:50%;pointer-events:none;
+  z-index:99999;transform:translate(-50%,-50%);
+}
+#cur-dot{
+  width:7px;height:7px;
+  background:var(--red);
+  box-shadow:0 0 8px var(--red),0 0 18px rgba(206,17,38,.5);
+}
+#cur-ring{
+  width:28px;height:28px;
+  border:1.5px solid rgba(206,17,38,.7);
+  box-shadow:0 0 8px rgba(206,17,38,.3);
+}
+
+/* TOP SIGNAL BAR */
+.signal-bar{
+  background:linear-gradient(90deg,#1a0000,#2a0005 40%,#1a0000 60%,#0d0000);
+  border-bottom:1px solid rgba(206,17,38,.25);
+  padding:10px 16px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:4px;
+  text-transform:uppercase;
+  overflow:hidden;position:relative;
+}
+.signal-bar .glow-text{
+  background:linear-gradient(90deg,var(--red),var(--gold),var(--red));
+  background-size:200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradmove 3s linear infinite;
+}
+@keyframes gradmove{0%{background-position:0%}100%{background-position:200%}}
+.signal-bar .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 8px var(--red);
+  animation:blink 1.2s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* EQ VISUALIZER */
+#eq-wrap{
+  background:#0e0303;
+  border-bottom:1px solid rgba(206,17,38,.1);
+  display:flex;align-items:flex-end;justify-content:center;
+  gap:3px;padding:6px 12px 0;height:38px;
+}
+.eq-b{
+  width:4px;border-radius:2px 2px 0 0;
+  background:linear-gradient(to top,var(--red),var(--gold));
+  animation:eqb var(--d,.8s) ease-in-out infinite alternate;
+}
+@keyframes eqb{from{height:3px}to{height:var(--h,16px)}}
+
+/* WRAPPER */
+.wrapper{
+  max-width:var(--max-w);
+  margin:0 auto;
+  padding:0 14px 36px;
+  position:relative;z-index:1;
+}
+
+/* PROFILE HEADER */
+.profile-header{
+  display:flex;align-items:center;gap:22px;
+  padding:26px 0 18px;flex-wrap:wrap;
+}
+
+/* Avatar */
+.av-wrap{position:relative;width:100px;height:100px;flex-shrink:0}
+.av-ring{
+  position:absolute;inset:-5px;border-radius:50%;
+  background:conic-gradient(var(--red),var(--gold),#7a0010,var(--red));
+  animation:spin 4s linear infinite;
+}
+.av-ring::after{
+  content:'';position:absolute;inset:3px;border-radius:50%;
+  background:var(--bg);
+}
+.av-ring2{
+  position:absolute;inset:-12px;border-radius:50%;
+  border:1px solid rgba(206,17,38,.2);
+  animation:spin 9s linear infinite reverse;
+}
+.av-img{
+  position:absolute;inset:0;border-radius:50%;z-index:2;
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Profile info */
+.p-info{flex:1;min-width:200px}
+.p-name{
+  font-family:'Orbitron',sans-serif;
+  font-size:30px;font-weight:900;
+  color:#fff;letter-spacing:3px;
+  text-shadow:0 0 20px var(--red),0 0 50px rgba(206,17,38,.3);
+  line-height:1.1;
+}
+.p-handle{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--red);font-weight:600;
+  letter-spacing:1.5px;margin:5px 0 10px;
+  font-family:'Exo 2',sans-serif;
+}
+.p-handle::before{content:'';display:inline-block;width:24px;height:1px;background:var(--red)}
+.p-bio{
+  font-size:13px;color:#a08080;line-height:1.7;
+  max-width:500px;margin-bottom:13px;
+}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{
+  padding:3px 11px;border-radius:20px;
+  font-size:11px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+}
+.br{background:rgba(206,17,38,.12);color:var(--red);border:1px solid rgba(206,17,38,.3)}
+.bg{background:rgba(212,160,23,.12);color:var(--gold);border:1px solid rgba(212,160,23,.3)}
+.bw{background:rgba(240,236,228,.08);color:var(--cream);border:1px solid rgba(240,236,228,.2)}
+
+/* TABS */
+.tabs-nav{
+  display:flex;gap:0;overflow-x:auto;scrollbar-width:none;
+  border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:26px;
+}
+.tabs-nav::-webkit-scrollbar{display:none}
+.t-btn{
+  padding:13px 22px;
+  font-family:'Orbitron',sans-serif;font-size:9.5px;
+  font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--muted);background:none;border:none;
+  cursor:none!important;position:relative;transition:color .2s;
+  white-space:nowrap;
+}
+.t-btn::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),var(--gold));
+  border-radius:2px 2px 0 0;
+  transform:scaleX(0);transition:transform .25s;
+}
+.t-btn.on{color:#fff}
+.t-btn.on::after{transform:scaleX(1)}
+.t-btn:not(.on):hover{color:rgba(255,255,255,.55)}
+
+/* TAB PANELS */
+.t-panel{display:none;animation:fadeup .3s ease}
+.t-panel.on{display:block}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION TITLE */
+.sec-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--red);
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(206,17,38,.4),transparent)}
+
+/* INICIO TAB */
+.welcome-box{
+  background:var(--surf);border-radius:14px;
+  padding:22px 24px 22px 36px;
+  border:1px solid rgba(255,255,255,.05);
+  font-size:14px;line-height:1.85;color:#a08080;
+  margin-bottom:14px;position:relative;overflow:hidden;
+}
+.welcome-box::before{
+  content:'"';
+  position:absolute;top:-14px;left:12px;
+  font-size:72px;font-family:Georgia,serif;
+  color:var(--red);opacity:.12;line-height:1;
+}
+.welcome-box::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),var(--gold),transparent);
+}
+.hl{color:var(--red);font-weight:600}
+.hlm{color:var(--gold);font-weight:600}
+.hlg{color:var(--cream);font-weight:600}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;margin-bottom:20px;
+}
+.i-box{
+  background:var(--surf);border-radius:12px;
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.04);
+  position:relative;overflow:hidden;
+}
+.i-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--accent,var(--red)),transparent);
+}
+.i-label{
+  font-size:9px;font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;
+}
+.i-val{
+  font-size:22px;font-weight:700;
+  font-family:'Orbitron',sans-serif;
+  color:var(--accent,var(--red));
+  text-shadow:0 0 14px rgba(206,17,38,.4);
+}
+
+/* Pulse ring (decorative) */
+.pulse-center{
+  display:flex;justify-content:center;
+  padding:10px 0 4px;
+}
+.p-ring-wrap{position:relative;width:48px;height:48px}
+.p-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid var(--red);
+  animation:pring 2.2s ease-out infinite;opacity:0;
+}
+.p-ring:nth-child(2){animation-delay:.73s}
+.p-ring:nth-child(3){animation-delay:1.46s}
+@keyframes pring{
+  0%{transform:scale(.6);opacity:.8}
+  100%{transform:scale(3);opacity:0}
+}
+.p-center-ico{
+  position:absolute;inset:0;display:flex;
+  align-items:center;justify-content:center;
+  font-size:22px;z-index:2;
+}
+
+/* PLAN CARDS */
+.plans-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(235px,1fr));
+  gap:16px;
+}
+.plan{
+  background:var(--surf);border-radius:16px;
+  padding:24px 22px;position:relative;overflow:hidden;
+  transition:transform .25s,box-shadow .25s;
+}
+.plan::before{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  border:1px solid var(--tc,var(--red));opacity:.3;
+  pointer-events:none;
+}
+.plan::after{
+  content:'';position:absolute;top:-50%;left:-10%;
+  width:120%;height:70%;
+  background:radial-gradient(circle,rgba(var(--tr,206,17,38),.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.plan:hover{transform:translateY(-5px);box-shadow:0 8px 32px rgba(var(--tr,206,17,38),.16)}
+
+.plan.bronze{--tc:#c98b3a;--tr:201,139,58}
+.plan.silver{--tc:#aabace;--tr:170,186,206}
+.plan.gold{--tc:#ffc800;--tr:255,200,0}
+
+.tier-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:4px 13px;border-radius:20px;
+  font-family:'Orbitron',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;
+  background:rgba(var(--tr),0.14);
+  color:var(--tc);
+  border:1px solid rgba(var(--tr),.3);
+  margin-bottom:14px;
+}
+
+.plan-price{
+  font-family:'Orbitron',sans-serif;
+  font-size:28px;font-weight:900;
+  color:var(--tc);
+  text-shadow:0 0 18px rgba(var(--tr),.45);
+  line-height:1.1;margin-bottom:2px;
+}
+.plan-price sub{
+  font-family:'Exo 2',sans-serif;
+  font-size:12px;font-weight:400;color:var(--muted);
+  vertical-align:baseline;
+}
+.plan-sub{
+  font-size:12px;color:var(--muted);margin-bottom:16px;
+  display:flex;align-items:center;gap:5px;
+}
+
+.features{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:22px}
+.features li{
+  display:flex;align-items:center;gap:9px;
+  font-size:13px;color:#c0a8a8;
+}
+.features li::before{
+  content:'▸';color:var(--tc);
+  font-size:13px;flex-shrink:0;
+}
+
+.plan-cta{
+  display:block;width:100%;padding:10px;
+  text-align:center;text-decoration:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;border-radius:8px;
+  background:rgba(var(--tr),.13);
+  color:var(--tc);
+  border:1px solid rgba(var(--tr),.35);
+  transition:background .2s,box-shadow .2s;
+}
+.plan-cta:hover{
+  background:rgba(var(--tr),.28);
+  box-shadow:0 0 18px rgba(var(--tr),.22);
+}
+
+/* RECOMMENDED badge */
+.rec-tag{
+  position:absolute;top:14px;right:14px;
+  padding:2px 9px;border-radius:20px;
+  font-size:8px;font-family:'Orbitron',sans-serif;
+  font-weight:700;letter-spacing:1.5px;
+  background:rgba(255,200,0,.15);color:#ffc800;
+  border:1px solid rgba(255,200,0,.3);
+}
+
+/* RESELLER NOTE */
+.reseller-note{
+  background:var(--surf);border-radius:12px;
+  padding:14px 18px;margin-bottom:20px;
+  font-size:13px;color:#a08080;line-height:1.6;
+  border-left:3px solid var(--red);
+}
+
+/* CONTACT */
+.contact-card{
+  max-width:440px;margin:0 auto;
+  background:var(--surf);border-radius:20px;
+  padding:38px 32px;text-align:center;
+  border:1px solid rgba(206,17,38,.15);
+  position:relative;overflow:hidden;
+}
+.contact-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--red),var(--gold),transparent);
+}
+.contact-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--red),transparent);
+}
+.c-icon{
+  font-size:52px;margin-bottom:6px;
+  animation:glow-ico 2.2s ease-in-out infinite;display:block;
+}
+@keyframes glow-ico{
+  0%,100%{filter:drop-shadow(0 0 3px var(--red))}
+  50%{filter:drop-shadow(0 0 16px var(--red)) drop-shadow(0 0 32px rgba(206,17,38,.4))}
+}
+.c-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:18px;font-weight:700;color:#fff;
+  letter-spacing:2px;margin-bottom:8px;
+}
+.c-sub{font-size:13px;color:#a08080;line-height:1.7;margin-bottom:26px}
+.c-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 30px;
+  background:linear-gradient(135deg,rgba(206,17,38,.15),rgba(212,160,23,.15));
+  border:1px solid rgba(206,17,38,.4);border-radius:10px;
+  color:#fff;text-decoration:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;
+  transition:all .25s;
+}
+.c-btn:hover{
+  background:linear-gradient(135deg,rgba(206,17,38,.3),rgba(212,160,23,.3));
+  box-shadow:0 0 28px rgba(206,17,38,.25);
+  transform:translateY(-2px);
+}
+.c-note{margin-top:14px;font-size:11px;color:rgba(255,255,255,.25)}
+.c-note b{color:var(--gold)}
+.c-id{
+  margin-top:8px;font-size:11px;color:rgba(255,255,255,.2);
+  font-family:'Orbitron',sans-serif;letter-spacing:2px;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;margin-top:34px;
+  padding-top:16px;border-top:1px solid rgba(255,255,255,.04);
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;letter-spacing:2.5px;
+  color:rgba(255,255,255,.2);
+}
+.footer span{color:var(--red)}
+
+/* RADIO PLAYER */
+.radio-player-wrap{
+  background:var(--surf);border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(206,17,38,.2);
+  box-shadow:0 0 30px rgba(206,17,38,.08);
+  margin-bottom:14px;
+}
+#stream{width:100%;height:300px}
+.radio-link-bar{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:12px;color:var(--muted);padding:4px 0;
+}
+.radio-link{
+  color:var(--red);font-weight:600;
+  text-decoration:none;letter-spacing:.5px;
+  transition:opacity .2s;
+}
+.radio-link:hover{opacity:.75}
+
+/* RESPONSIVE */
+@media(max-width:540px){
+  .profile-header{flex-direction:column;align-items:center;text-align:center}
+  .p-handle{justify-content:center}
+  .badges{justify-content:center}
+  .plans-grid{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- SIGNAL BAR -->
+<div class="signal-bar">
+  <span class="dot"></span>
+  <span class="glow-text">LATIDOS69 &nbsp;·&nbsp; STREAMING RADIO ONLINE &nbsp;·&nbsp; EN VIVO 24/7</span>
+  <span class="dot"></span>
+</div>
+
+<!-- EQ VISUALIZER -->
+<div id="eq-wrap"></div>
+
+<div class="wrapper">
+
+  <!-- PROFILE HEADER -->
+  <div class="profile-header">
+    <div class="av-wrap">
+      <div class="av-ring2"></div>
+      <div class="av-ring"></div>
+      <img class="av-img" src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Latidos69" referrerpolicy="no-referrer">
+    </div>
+    <div class="p-info">
+      <div class="p-name">JOTA</div>
+      <div class="p-handle">LATIDOS69 · XAT.COM/LATIDOS69</div>
+      <div class="p-bio">Empresa dedicada a <strong style="color:#f5edea">Streaming Radio Online</strong>. Brindamos servicios de alta calidad con la mejor tecnología disponible para tu emisora.</div>
+      <div class="badges">
+        <span class="badge br">Streaming</span>
+        <span class="badge bg">📡 Reseller</span>
+        <span class="badge bw">SonicPanel</span>
+        <span class="badge br">24/7 Soporte</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS NAV -->
+  <nav class="tabs-nav">
+    <button class="t-btn on" onclick="goTab('inicio',this)">◈ Inicio</button>
+    <button class="t-btn" onclick="goTab('radio',this)">◈ Radio</button>
+    <button class="t-btn" onclick="goTab('streaming',this)">◈ Streaming</button>
+    <button class="t-btn" onclick="goTab('reseller',this)">◈ Reseller</button>
+    <button class="t-btn" onclick="goTab('contacto',this)">◈ Contacto</button>
+  </nav>
+
+  <!-- ══ INICIO ══ -->
+  <div id="t-inicio" class="t-panel on">
+    <div class="welcome-box">
+      Somos una empresa dedicada a <span class="hl">Streaming Radio Online</span>. Te brindamos diversas variedades de servicios:
+      <span class="hlm">STREAMING</span>, <span class="hlm">RESELLER RADIO</span>, <span class="hlm">HOSTING</span> y mucho más.
+      Contamos con tecnología de primer nivel y soporte <span class="hlg">24/7</span> para que tu radio nunca se detenga.
+    </div>
+    <div class="info-grid">
+      <div class="i-box" style="--accent:var(--red)">
+        <div class="i-label">Oyentes Máximos</div>
+        <div class="i-val" style="text-shadow:0 0 14px rgba(206,17,38,.45)">5.000+</div>
+      </div>
+      <div class="i-box" style="--accent:var(--gold)">
+        <div class="i-label">Calidad Máx.</div>
+        <div class="i-val" style="text-shadow:0 0 14px rgba(212,160,23,.45)">320 Kbps</div>
+      </div>
+      <div class="i-box" style="--accent:var(--red)">
+        <div class="i-label">Soporte</div>
+        <div class="i-val" style="text-shadow:0 0 14px rgba(206,17,38,.45)">24 / 7</div>
+      </div>
+      <div class="i-box" style="--accent:var(--gold)">
+        <div class="i-label">Plataforma</div>
+        <div class="i-val" style="font-size:15px;margin-top:4px;text-shadow:0 0 14px rgba(212,160,23,.45)">SonicPanel</div>
+      </div>
+    </div>
+    <div class="pulse-center">
+      <div class="p-ring-wrap">
+        <div class="p-ring"></div>
+        <div class="p-ring"></div>
+        <div class="p-ring"></div>
+        <div class="p-center-ico">📡</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RADIO ══ -->
+  <div id="t-radio" class="t-panel">
+    <div class="sec-title">Radio en Vivo</div>
+    <div class="radio-player-wrap">
+      <div id="stream"></div>
+    </div>
+    <div class="radio-link-bar">
+      <span>Tecnología provista por</span>
+      <a href="https://streamingjca.com/service-details.html" target="_blank" class="radio-link">streamingjca.com</a>
+    </div>
+  </div>
+
+  <!-- ══ STREAMING ══ -->
+  <div id="t-streaming" class="t-panel">
+    <div class="sec-title">Planes de Streaming Radio</div>
+    <div class="plans-grid">
+
+      <!-- BRONCE -->
+      <div class="plan bronze">
+        <div class="tier-badge">Bronce</div>
+        <div class="plan-price">1500 <sub>xat / mes</sub></div>
+        <div class="plan-sub">1.000 Oyentes simultáneos</div>
+        <ul class="features">
+          <li>128 Kbps de calidad</li>
+          <li>2 GB espacio Auto DJ</li>
+          <li>Panel SonicPanel</li>
+          <li>Soporte 24/7</li>
+        </ul>
+        <a href="https://xat.com/LATIDOS69" class="plan-cta" target="_blank">Contratar Plan</a>
+      </div>
+
+      <!-- PLATA -->
+      <div class="plan silver">
+        <div class="tier-badge">Plata</div>
+        <div class="plan-price">2000 <sub>xat / mes</sub></div>
+        <div class="plan-sub">3.000 Oyentes simultáneos</div>
+        <ul class="features">
+          <li>192 Kbps de calidad</li>
+          <li>4 GB espacio Auto DJ</li>
+          <li>Panel SonicPanel</li>
+          <li>Soporte 24/7</li>
+        </ul>
+        <a href="https://xat.com/LATIDOS69" class="plan-cta" target="_blank">Contratar Plan</a>
+      </div>
+
+      <!-- ORO -->
+      <div class="plan gold">
+        <div class="rec-tag">★ POPULAR</div>
+        <div class="tier-badge">Oro</div>
+        <div class="plan-price">3000 <sub>xat / mes</sub></div>
+        <div class="plan-sub">5.000 Oyentes simultáneos</div>
+        <ul class="features">
+          <li>320 Kbps de calidad</li>
+          <li>6 GB espacio Auto DJ</li>
+          <li>Panel SonicPanel</li>
+          <li>Soporte 24/7</li>
+        </ul>
+        <a href="https://xat.com/LATIDOS69" class="plan-cta" target="_blank">Contratar Plan</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ RESELLER ══ -->
+  <div id="t-reseller" class="t-panel">
+    <div class="sec-title">Reseller Radio</div>
+    <div class="reseller-note">
+      Ideal para revendedores. <span class="hl">Oyentes ilimitados</span> en todos los planes. Gestiona múltiples radios desde un único panel SonicPanel.
+    </div>
+    <div class="plans-grid">
+
+      <!-- BRONCE -->
+      <div class="plan bronze">
+        <div class="tier-badge">Bronce</div>
+        <div class="plan-price">$13 <sub>/ mes</sub></div>
+        <div class="plan-sub">10 Radios · ∞ Oyentes</div>
+        <ul class="features">
+          <li>128 Kbps de calidad</li>
+          <li>50 GB espacio Auto DJ</li>
+          <li>Panel SonicPanel</li>
+          <li>Soporte 24/7</li>
+        </ul>
+        <a href="https://xat.com/LATIDOS69" class="plan-cta" target="_blank">Contratar Plan</a>
+      </div>
+
+      <!-- PLATA -->
+      <div class="plan silver">
+        <div class="tier-badge">Plata</div>
+        <div class="plan-price">$20 <sub>/ mes</sub></div>
+        <div class="plan-sub">20 Radios · ∞ Oyentes</div>
+        <ul class="features">
+          <li>128 Kbps de calidad</li>
+          <li>100 GB espacio Auto DJ</li>
+          <li>Panel SonicPanel</li>
+          <li>Soporte 24/7</li>
+        </ul>
+        <a href="https://xat.com/LATIDOS69" class="plan-cta" target="_blank">Contratar Plan</a>
+      </div>
+
+      <!-- ORO -->
+      <div class="plan gold">
+        <div class="rec-tag">★ POPULAR</div>
+        <div class="tier-badge">Oro</div>
+        <div class="plan-price">$27 <sub>/ mes</sub></div>
+        <div class="plan-sub">30 Radios · ∞ Oyentes</div>
+        <ul class="features">
+          <li>128 Kbps de calidad</li>
+          <li>150 GB espacio Auto DJ</li>
+          <li>Panel SonicPanel</li>
+          <li>Soporte 24/7</li>
+        </ul>
+        <a href="https://xat.com/LATIDOS69" class="plan-cta" target="_blank">Contratar Plan</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ CONTACTO ══ -->
+  <div id="t-contacto" class="t-panel">
+    <div class="contact-card">
+      <span class="c-icon">📡</span>
+      <div class="c-title">Contáctanos</div>
+      <div class="c-sub">¿Listo para lanzar tu radio online? Visítanos en nuestro chat y te atendemos de inmediato. Resolvemos todas tus dudas sin compromiso.</div>
+      <a href="https://xat.com/LATIDOS69" class="c-btn" target="_blank">
+        XAT.COM/LATIDOS69
+      </a>
+      <div class="c-note">Atendido por <b>Jota</b> · Soporte activo 24/7</div>
+      <div class="c-id">ID: 888880</div>
+    </div>
+  </div>
+
+  <div class="footer">LATIDOS69 &nbsp;·&nbsp; <span>by Becca</span> &nbsp;·&nbsp; 2025</div>
+
+</div><!-- /wrapper -->
+
+<script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
+<script src="https://sistemahost.com/playergenerator/js/player.js"></script>
+<script>
+$('#stream').lunaradio({
+  streamurl: 'https://eu.streamingjca.com:8002',
+  radioname: 'Latidos69 Radio',
+  coverimage: '',
+  onlycoverimage: false,
+  userinterface: 'big',
+  backgroundcolor: '#130606',
+  fontcolor: '#f5edea',
+  hightlightcolor: '#CE1126',
+  fontname: 'Exo 2',
+  googlefont: 'Exo+2:wght@400',
+  fontratio: '0.4',
+  scroll: 'true',
+  coverstyle: 'animated',
+  usevisualizer: 'real',
+  visualizertype: '1',
+  streamtype: 'shoutcast2',
+  shoutcastpath: '/stream',
+  shoutcastid: '1',
+  autoplay: 'false',
+  metadatainterval: '5000',
+  volume: '80',
+  usestreamcorsproxy: 'true',
+});
+
+function goTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('t-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+const dot = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+});
+(function anim() {
+  rx += (mx - rx) * 0.11;
+  ry += (my - ry) * 0.11;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(anim);
+})();
+
+const eq = document.getElementById('eq-wrap');
+for (let i = 0; i < 28; i++) {
+  const b = document.createElement('div');
+  b.className = 'eq-b';
+  const h = (Math.random() * 14 + 4).toFixed(0);
+  const d = (Math.random() * 0.55 + 0.45).toFixed(2);
+  b.style.cssText = '--h:' + h + 'px;--d:' + d + 's';
+  eq.appendChild(b);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && 'IJC'.includes(e.key)) || (e.ctrlKey && e.key === 'U'))
+    e.preventDefault();
+});
+document.addEventListener('contextmenu', e => e.preventDefault());
+</script>
+</body>
+</html>
