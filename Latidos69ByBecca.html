@@ -451,23 +451,69 @@ body::before{
 .footer span{color:var(--red)}
 
 /* RADIO PLAYER */
-.radio-player-wrap{
-  background:var(--surf);border-radius:16px;
-  overflow:hidden;
-  border:1px solid rgba(206,17,38,.2);
-  box-shadow:0 0 30px rgba(206,17,38,.08);
-  margin-bottom:14px;
+.rp-wrap{
+  background:var(--surf);border-radius:18px;
+  border:1px solid rgba(206,17,38,.22);
+  box-shadow:0 0 32px rgba(206,17,38,.08);
+  padding:28px 24px 24px;
+  margin-bottom:14px;position:relative;overflow:hidden;
 }
-#stream{width:100%;height:300px}
-.radio-link-bar{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  font-size:12px;color:var(--muted);padding:4px 0;
+.rp-wrap::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),var(--gold),var(--red));
+  background-size:200%;animation:gradmove 3s linear infinite;
 }
-.radio-link{
-  color:var(--red);font-weight:600;
-  text-decoration:none;letter-spacing:.5px;
-  transition:opacity .2s;
+.rp-top{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.rp-logo{
+  width:68px;height:68px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,#2a0505,#3d0808);
+  border:1px solid rgba(206,17,38,.3);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
 }
+.rp-info{flex:1;min-width:0}
+.rp-station{
+  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;
+  color:#fff;letter-spacing:2px;margin-bottom:4px;
+}
+.rp-live{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:9px;font-family:'Orbitron',sans-serif;
+  font-weight:700;letter-spacing:2px;color:var(--red);
+}
+.rp-live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--red);box-shadow:0 0 6px var(--red);
+  animation:blink 1.2s ease-in-out infinite;
+}
+.rp-eq{display:flex;align-items:flex-end;gap:2px;height:20px;margin-top:6px;opacity:0;transition:opacity .4s}
+.rp-eq.on{opacity:1}
+.rp-eq-b{width:3px;border-radius:2px 2px 0 0;background:linear-gradient(to top,var(--red),var(--gold));animation:eqb var(--d,.7s) ease-in-out infinite alternate}
+.rp-controls{display:flex;align-items:center;gap:16px}
+.rp-play{
+  width:54px;height:54px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--red),#8b0015);
+  border:none;color:#fff;font-size:22px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 18px rgba(206,17,38,.4);
+  transition:transform .15s,box-shadow .15s;
+}
+.rp-play:hover{transform:scale(1.09);box-shadow:0 0 28px rgba(206,17,38,.6)}
+.rp-vol-wrap{flex:1;display:flex;align-items:center;gap:10px}
+.rp-vol-ico{font-size:14px;color:var(--muted)}
+.rp-vol{
+  -webkit-appearance:none;appearance:none;flex:1;height:4px;
+  border-radius:2px;outline:none;
+  background:rgba(255,255,255,.1);
+}
+.rp-vol::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 6px rgba(212,160,23,.5);cursor:pointer;
+}
+.rp-status{font-size:11px;color:var(--muted);margin-top:14px;text-align:center;font-family:'Orbitron',sans-serif;letter-spacing:1px}
+.rp-status.ok{color:var(--gold)}
+.rp-status.err{color:var(--red)}
+.radio-link-bar{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--muted);padding:4px 0}
+.radio-link{color:var(--red);font-weight:600;text-decoration:none;letter-spacing:.5px;transition:opacity .2s}
 .radio-link:hover{opacity:.75}
 
 /* FRIENDS */
@@ -688,8 +734,25 @@ body::before{
   <!-- ══ RADIO ══ -->
   <div id="t-radio" class="t-panel">
     <div class="sec-title">Radio en Vivo</div>
-    <div class="radio-player-wrap">
-      <div id="stream"></div>
+    <div class="rp-wrap">
+      <audio id="ra" preload="none"></audio>
+      <div class="rp-top">
+        <div class="rp-logo">📡</div>
+        <div class="rp-info">
+          <div class="rp-station">LATIDOS69 RADIO</div>
+          <div class="rp-live"><span class="rp-live-dot"></span> EN VIVO</div>
+          <div class="rp-eq" id="rp-eq"></div>
+        </div>
+      </div>
+      <div class="rp-controls">
+        <button class="rp-play" id="rp-btn" onclick="rpToggle()">▶</button>
+        <div class="rp-vol-wrap">
+          <span class="rp-vol-ico">🔈</span>
+          <input class="rp-vol" id="rp-vol" type="range" min="0" max="1" step="0.02" value="0.8" oninput="rpVol(this.value)">
+          <span class="rp-vol-ico">🔊</span>
+        </div>
+      </div>
+      <div class="rp-status" id="rp-status">Presiona ▶ para escuchar</div>
     </div>
     <div class="radio-link-bar">
       <span>Tecnología provista por</span>
@@ -918,32 +981,56 @@ body::before{
 
 </div><!-- /wrapper -->
 
-<script src="https://sistemahost.com/playergenerator/js/jquery-3.2.1.min.js"></script>
-<script src="https://sistemahost.com/playergenerator/js/player.js"></script>
 <script>
-$('#stream').lunaradio({
-  streamurl: 'https://eu.streamingjca.com:8002',
-  radioname: 'Latidos69 Radio',
-  coverimage: '',
-  onlycoverimage: false,
-  userinterface: 'big',
-  backgroundcolor: '#130606',
-  fontcolor: '#f5edea',
-  hightlightcolor: '#CE1126',
-  fontname: 'Exo 2',
-  googlefont: 'Exo+2:wght@400',
-  fontratio: '0.4',
-  scroll: 'true',
-  coverstyle: 'animated',
-  usevisualizer: 'real',
-  visualizertype: '1',
-  streamtype: 'shoutcast2',
-  shoutcastpath: '/stream',
-  shoutcastid: '1',
-  autoplay: 'false',
-  metadatainterval: '5000',
-  volume: '80',
-  usestreamcorsproxy: 'true',
+// ── RADIO PLAYER HTML5 ──
+const STREAM_URL = 'https://eu.streamingjca.com:8002/stream';
+const ra    = document.getElementById('ra');
+const rpBtn = document.getElementById('rp-btn');
+const rpStat = document.getElementById('rp-status');
+const rpEq  = document.getElementById('rp-eq');
+let rpPlaying = false;
+
+// Genera barras EQ decorativas del player
+for (let i = 0; i < 14; i++) {
+  const b = document.createElement('div');
+  b.className = 'rp-eq-b';
+  b.style.cssText = `--h:${(Math.random()*12+4).toFixed(0)}px;--d:${(Math.random()*.5+.35).toFixed(2)}s`;
+  rpEq.appendChild(b);
+}
+
+function rpToggle() {
+  if (!rpPlaying) {
+    ra.src = STREAM_URL;
+    ra.load();
+    ra.play().then(() => {
+      rpPlaying = true;
+      rpBtn.textContent = '⏸';
+      rpEq.classList.add('on');
+      rpStat.className = 'rp-status ok';
+      rpStat.textContent = 'Conectado · En vivo';
+    }).catch(() => {
+      rpStat.className = 'rp-status err';
+      rpStat.textContent = 'No se pudo conectar al stream';
+    });
+    rpStat.className = 'rp-status';
+    rpStat.textContent = 'Conectando...';
+  } else {
+    ra.pause();
+    ra.src = '';
+    rpPlaying = false;
+    rpBtn.textContent = '▶';
+    rpEq.classList.remove('on');
+    rpStat.className = 'rp-status';
+    rpStat.textContent = 'Presiona ▶ para escuchar';
+  }
+}
+
+function rpVol(v) { ra.volume = v; }
+
+ra.addEventListener('error', () => {
+  rpPlaying = false; rpBtn.textContent = '▶'; rpEq.classList.remove('on');
+  rpStat.className = 'rp-status err';
+  rpStat.textContent = 'Stream no disponible · Intenta más tarde';
 });
 
 function goTab(id, btn) {
@@ -980,7 +1067,7 @@ for (let i = 0; i < 28; i++) {
 // ── REVIEWS ──
 // Opcional: para que todos vean las mismas reseñas, pon tu BIN_ID y API_KEY de jsonbin.io
 // Si los dejas vacíos funciona igual pero solo guarda en este navegador (localStorage)
-const BIN_ID  = '$2a$10$TiD/QA775YfF9nx5VwKu9ePGg6385UT/EHFxYqEWJrieEVyMdfK0K';
+const BIN_ID  = '69f3b725aaba882197589216';
 const API_KEY = '$2a$10$TiD/QA775YfF9nx5VwKu9ePGg6385UT/EHFxYqEWJrieEVyMdfK0K';
 const USE_CLOUD = BIN_ID && API_KEY;
 const LS_KEY  = 'latidos69_reviews';
