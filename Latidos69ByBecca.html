@@ -470,6 +470,128 @@ body::before{
 }
 .radio-link:hover{opacity:.75}
 
+/* FRIENDS */
+.friends-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+.friend-card{
+  background:var(--surf);
+  border-radius:14px;
+  padding:18px 12px 14px;
+  text-align:center;
+  text-decoration:none;
+  border:1px solid rgba(206,17,38,.15);
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  position:relative;overflow:hidden;
+}
+.friend-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),var(--gold));
+  opacity:0;transition:opacity .22s;
+}
+.friend-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 24px rgba(206,17,38,.2);
+  border-color:rgba(206,17,38,.4);
+}
+.friend-card:hover::before{opacity:1}
+.friend-av{
+  width:64px;height:64px;border-radius:50%;
+  overflow:hidden;flex-shrink:0;
+  border:2px solid rgba(206,17,38,.3);
+  position:relative;
+}
+.friend-av img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.friend-name{
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:1px;color:#fff;
+  text-transform:uppercase;
+}
+.friend-chat{
+  font-size:10px;color:var(--muted);
+  letter-spacing:.5px;
+}
+.friends-note{
+  text-align:center;font-size:12px;
+  color:var(--muted);padding-top:4px;
+}
+.friends-note span{color:var(--red);font-weight:600}
+
+/* REVIEWS */
+.review-form-box{
+  background:var(--surf);border-radius:14px;
+  padding:20px;margin-bottom:18px;
+  border:1px solid rgba(206,17,38,.18);
+  position:relative;overflow:hidden;
+}
+.review-form-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),var(--gold),transparent);
+}
+.review-form-title{
+  font-family:'Orbitron',sans-serif;font-size:11px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;
+}
+.star-row{display:flex;gap:6px;margin-bottom:12px}
+.star{
+  font-size:24px;color:rgba(255,255,255,.15);
+  cursor:pointer;transition:color .15s,transform .15s;line-height:1;
+}
+.star.on,.star:hover{color:var(--gold);transform:scale(1.15)}
+.rv-input{
+  width:100%;background:rgba(0,0,0,.3);
+  border:1px solid rgba(206,17,38,.2);border-radius:8px;
+  color:var(--text);font-family:'Exo 2',sans-serif;font-size:13px;
+  padding:9px 12px;margin-bottom:10px;outline:none;
+  transition:border-color .2s;display:block;
+  resize:none;
+}
+.rv-input:focus{border-color:rgba(206,17,38,.55)}
+.rv-input::placeholder{color:var(--muted)}
+.rv-submit{
+  padding:9px 22px;
+  background:linear-gradient(135deg,rgba(206,17,38,.2),rgba(212,160,23,.2));
+  border:1px solid rgba(206,17,38,.4);border-radius:8px;
+  color:#fff;font-family:'Orbitron',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;transition:all .2s;
+}
+.rv-submit:hover{
+  background:linear-gradient(135deg,rgba(206,17,38,.35),rgba(212,160,23,.35));
+  box-shadow:0 0 16px rgba(206,17,38,.2);
+}
+.rv-msg{
+  font-size:12px;margin-top:8px;min-height:16px;
+  color:var(--gold);font-weight:600;
+}
+.review-card{
+  background:var(--surf);border-radius:12px;
+  padding:16px 18px;margin-bottom:12px;
+  border:1px solid rgba(255,255,255,.05);
+  position:relative;
+}
+.review-card.featured{border-color:rgba(212,160,23,.18)}
+.review-card.featured::before{
+  content:'✓ Verificado';
+  position:absolute;top:12px;right:12px;
+  font-size:9px;font-family:'Orbitron',sans-serif;
+  font-weight:700;letter-spacing:1px;
+  color:var(--gold);opacity:.7;
+}
+.rv-stars{color:var(--gold);font-size:16px;margin-bottom:6px;letter-spacing:2px}
+.rv-comment{font-size:13px;color:#c0a0a0;line-height:1.7;margin-bottom:10px;font-style:italic}
+.rv-meta{display:flex;align-items:center;gap:10px}
+.rv-author{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;color:#fff;letter-spacing:1px}
+.rv-date{font-size:11px;color:var(--muted)}
+
 /* RESPONSIVE */
 @media(max-width:540px){
   .profile-header{flex-direction:column;align-items:center;text-align:center}
@@ -523,6 +645,8 @@ body::before{
     <button class="t-btn" onclick="goTab('radio',this)">◈ Radio</button>
     <button class="t-btn" onclick="goTab('streaming',this)">◈ Streaming</button>
     <button class="t-btn" onclick="goTab('reseller',this)">◈ Reseller</button>
+    <button class="t-btn" onclick="goTab('amigos',this)">◈ Amigos</button>
+    <button class="t-btn" onclick="goTab('resenas',this)">◈ Reseñas</button>
     <button class="t-btn" onclick="goTab('contacto',this)">◈ Contacto</button>
   </nav>
 
@@ -678,6 +802,104 @@ body::before{
     </div>
   </div>
 
+  <!-- ══ AMIGOS ══ -->
+  <div id="t-amigos" class="t-panel">
+    <div class="sec-title">Amigos</div>
+    <div class="friends-grid">
+
+      <a href="https://xat.com/LATIDOS69" class="friend-card" target="_blank">
+        <div class="friend-av">
+          <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Amigo" referrerpolicy="no-referrer">
+        </div>
+        <div class="friend-name">Amigo 1</div>
+        <div class="friend-chat">xat.com/chat</div>
+      </a>
+
+      <a href="https://xat.com/LATIDOS69" class="friend-card" target="_blank">
+        <div class="friend-av">
+          <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Amigo" referrerpolicy="no-referrer">
+        </div>
+        <div class="friend-name">Amigo 2</div>
+        <div class="friend-chat">xat.com/chat</div>
+      </a>
+
+      <a href="https://xat.com/LATIDOS69" class="friend-card" target="_blank">
+        <div class="friend-av">
+          <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Amigo" referrerpolicy="no-referrer">
+        </div>
+        <div class="friend-name">Amigo 3</div>
+        <div class="friend-chat">xat.com/chat</div>
+      </a>
+
+      <a href="https://xat.com/LATIDOS69" class="friend-card" target="_blank">
+        <div class="friend-av">
+          <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Amigo" referrerpolicy="no-referrer">
+        </div>
+        <div class="friend-name">Amigo 4</div>
+        <div class="friend-chat">xat.com/chat</div>
+      </a>
+
+      <a href="https://xat.com/LATIDOS69" class="friend-card" target="_blank">
+        <div class="friend-av">
+          <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Amigo" referrerpolicy="no-referrer">
+        </div>
+        <div class="friend-name">Amigo 5</div>
+        <div class="friend-chat">xat.com/chat</div>
+      </a>
+
+      <a href="https://xat.com/LATIDOS69" class="friend-card" target="_blank">
+        <div class="friend-av">
+          <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Amigo" referrerpolicy="no-referrer">
+        </div>
+        <div class="friend-name">Amigo 6</div>
+        <div class="friend-chat">xat.com/chat</div>
+      </a>
+
+    </div>
+    <div class="friends-note">¿Quieres aparecer aquí? Contáctanos en <span>XAT.COM/LATIDOS69</span></div>
+  </div>
+
+  <!-- ══ RESEÑAS ══ -->
+  <div id="t-resenas" class="t-panel">
+    <div class="sec-title">Reseñas</div>
+
+    <!-- Formulario -->
+    <div class="review-form-box">
+      <div class="review-form-title">Deja tu reseña</div>
+      <div class="star-row" id="star-input">
+        <span class="star" data-v="1">★</span>
+        <span class="star" data-v="2">★</span>
+        <span class="star" data-v="3">★</span>
+        <span class="star" data-v="4">★</span>
+        <span class="star" data-v="5">★</span>
+      </div>
+      <input id="rv-name" class="rv-input" type="text" placeholder="Tu nombre o chat de XAT" maxlength="40">
+      <textarea id="rv-text" class="rv-input rv-textarea" placeholder="Escribe tu opinión..." maxlength="280" rows="3"></textarea>
+      <button class="rv-submit" onclick="saveReview()">Publicar reseña</button>
+      <div id="rv-msg" class="rv-msg"></div>
+    </div>
+
+    <!-- Testimonios fijos -->
+    <div class="review-card featured">
+      <div class="rv-stars">★★★★★</div>
+      <div class="rv-comment">"Excelente servicio, mi radio lleva 6 meses sin caídas. El soporte de Jota es increíble, siempre responde rápido."</div>
+      <div class="rv-meta"><span class="rv-author">RadioLatina</span><span class="rv-date">Cliente verificado</span></div>
+    </div>
+    <div class="review-card featured">
+      <div class="rv-stars">★★★★★</div>
+      <div class="rv-comment">"Contraté el plan Oro y es espectacular. 320 Kbps de calidad y nunca tuve problemas. 100% recomendado."</div>
+      <div class="rv-meta"><span class="rv-author">DJ Marquitos</span><span class="rv-date">Cliente verificado</span></div>
+    </div>
+    <div class="review-card featured">
+      <div class="rv-stars">★★★★☆</div>
+      <div class="rv-comment">"Muy buena plataforma SonicPanel, fácil de usar. El precio es justo para lo que ofrecen. ¡Seguiré renovando!"</div>
+      <div class="rv-meta"><span class="rv-author">RadioAlegria</span><span class="rv-date">Cliente verificado</span></div>
+    </div>
+
+    <!-- Reseñas guardadas -->
+    <div id="reviews-list"></div>
+  </div>
+
   <!-- ══ CONTACTO ══ -->
   <div id="t-contacto" class="t-panel">
     <div class="contact-card">
@@ -754,6 +976,95 @@ for (let i = 0; i < 28; i++) {
   b.style.cssText = '--h:' + h + 'px;--d:' + d + 's';
   eq.appendChild(b);
 }
+
+// ── REVIEWS ──
+// Opcional: para que todos vean las mismas reseñas, pon tu BIN_ID y API_KEY de jsonbin.io
+// Si los dejas vacíos funciona igual pero solo guarda en este navegador (localStorage)
+const BIN_ID  = '$2a$10$TiD/QA775YfF9nx5VwKu9ePGg6385UT/EHFxYqEWJrieEVyMdfK0K';
+const API_KEY = '$2a$10$TiD/QA775YfF9nx5VwKu9ePGg6385UT/EHFxYqEWJrieEVyMdfK0K';
+const USE_CLOUD = BIN_ID && API_KEY;
+const LS_KEY  = 'latidos69_reviews';
+
+let selectedStars = 0;
+document.querySelectorAll('.star').forEach(s => {
+  s.addEventListener('click', () => {
+    selectedStars = +s.dataset.v;
+    document.querySelectorAll('.star').forEach(x => x.classList.toggle('on', +x.dataset.v <= selectedStars));
+  });
+  s.addEventListener('mouseover', () => {
+    document.querySelectorAll('.star').forEach(x => x.classList.toggle('on', +x.dataset.v <= +s.dataset.v));
+  });
+  s.addEventListener('mouseout', () => {
+    document.querySelectorAll('.star').forEach(x => x.classList.toggle('on', +x.dataset.v <= selectedStars));
+  });
+});
+
+async function saveReview() {
+  const name = document.getElementById('rv-name').value.trim();
+  const text = document.getElementById('rv-text').value.trim();
+  const msg  = document.getElementById('rv-msg');
+  if (!name)        { msg.style.color='#CE1126'; msg.textContent='Escribe tu nombre.'; return; }
+  if (!text)        { msg.style.color='#CE1126'; msg.textContent='Escribe un comentario.'; return; }
+  if (!selectedStars){ msg.style.color='#CE1126'; msg.textContent='Selecciona una puntuación.'; return; }
+  msg.style.color='#D4A017'; msg.textContent='Guardando...';
+  const entry = { name, text, stars: selectedStars, date: new Date().toLocaleDateString('es-PE') };
+
+  let reviews = [];
+  if (USE_CLOUD) {
+    try {
+      const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers:{'X-Master-Key':API_KEY} });
+      const d = await r.json();
+      reviews = Array.isArray(d.record?.reviews) ? d.record.reviews : [];
+      reviews.unshift(entry);
+      await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method:'PUT',
+        headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+        body: JSON.stringify({reviews})
+      });
+      msg.textContent = '¡Reseña publicada! Visible para todos.';
+    } catch(e) {
+      msg.style.color='#CE1126'; msg.textContent='Error de conexión, intenta de nuevo.'; return;
+    }
+  } else {
+    reviews = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    reviews.unshift(entry);
+    localStorage.setItem(LS_KEY, JSON.stringify(reviews));
+    msg.textContent = '¡Gracias por tu reseña!';
+  }
+
+  document.getElementById('rv-name').value = '';
+  document.getElementById('rv-text').value = '';
+  selectedStars = 0;
+  document.querySelectorAll('.star').forEach(x => x.classList.remove('on'));
+  setTimeout(() => msg.textContent='', 4000);
+  renderReviews(reviews);
+}
+
+async function loadReviews() {
+  let reviews = [];
+  if (USE_CLOUD) {
+    try {
+      const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers:{'X-Master-Key':API_KEY} });
+      const d = await r.json();
+      reviews = Array.isArray(d.record?.reviews) ? d.record.reviews : [];
+    } catch(e) { reviews = []; }
+  } else {
+    reviews = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+  }
+  renderReviews(reviews);
+}
+
+function renderReviews(reviews) {
+  document.getElementById('reviews-list').innerHTML = reviews.length
+    ? reviews.map(r => `
+        <div class="review-card">
+          <div class="rv-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+          <div class="rv-comment">"${r.text}"</div>
+          <div class="rv-meta"><span class="rv-author">${r.name}</span><span class="rv-date">${r.date}</span></div>
+        </div>`).join('')
+    : '<p style="color:var(--muted);font-size:12px;text-align:center;padding:12px">Sé el primero en dejar una reseña.</p>';
+}
+loadReviews();
 
 document.addEventListener('keydown', e => {
   if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && 'IJC'.includes(e.key)) || (e.ctrlKey && e.key === 'U'))
