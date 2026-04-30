@@ -450,71 +450,71 @@ body::before{
 }
 .footer span{color:var(--red)}
 
-/* RADIO PLAYER */
-.rp-wrap{
-  background:var(--surf);border-radius:18px;
-  border:1px solid rgba(206,17,38,.22);
-  box-shadow:0 0 32px rgba(206,17,38,.08);
-  padding:28px 24px 24px;
-  margin-bottom:14px;position:relative;overflow:hidden;
+/* RADIO INVITE CARD */
+.radio-invite{
+  background:var(--surf);border-radius:20px;
+  border:1px solid rgba(206,17,38,.2);
+  padding:40px 28px 32px;
+  text-align:center;
+  position:relative;overflow:hidden;
 }
-.rp-wrap::before{
+.radio-invite::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--red),var(--gold),var(--red));
-  background-size:200%;animation:gradmove 3s linear infinite;
+  background:linear-gradient(90deg,transparent,var(--red),var(--gold),transparent);
 }
-.rp-top{display:flex;align-items:center;gap:18px;margin-bottom:22px}
-.rp-logo{
-  width:68px;height:68px;border-radius:14px;flex-shrink:0;
-  background:linear-gradient(135deg,#2a0505,#3d0808);
-  border:1px solid rgba(206,17,38,.3);
-  display:flex;align-items:center;justify-content:center;font-size:28px;
+.radio-invite::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--red),transparent);
 }
-.rp-info{flex:1;min-width:0}
-.rp-station{
-  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;
-  color:#fff;letter-spacing:2px;margin-bottom:4px;
+/* Sound wave bars */
+.ri-waves{
+  display:flex;align-items:flex-end;justify-content:center;
+  gap:5px;height:36px;margin-bottom:20px;
 }
-.rp-live{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:9px;font-family:'Orbitron',sans-serif;
-  font-weight:700;letter-spacing:2px;color:var(--red);
+.ri-waves span{
+  display:block;width:5px;border-radius:3px 3px 0 0;
+  background:linear-gradient(to top,var(--red),var(--gold));
+  animation:eqb var(--d,.7s) ease-in-out infinite alternate;
 }
-.rp-live-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--red);box-shadow:0 0 6px var(--red);
-  animation:blink 1.2s ease-in-out infinite;
+.ri-waves span:nth-child(1){--h:14px;--d:.55s}
+.ri-waves span:nth-child(2){--h:28px;--d:.40s}
+.ri-waves span:nth-child(3){--h:36px;--d:.65s}
+.ri-waves span:nth-child(4){--h:22px;--d:.45s}
+.ri-waves span:nth-child(5){--h:12px;--d:.70s}
+.ri-icon{
+  font-size:54px;margin-bottom:10px;display:block;
+  animation:glow-ico 2.2s ease-in-out infinite;
 }
-.rp-eq{display:flex;align-items:flex-end;gap:2px;height:20px;margin-top:6px;opacity:0;transition:opacity .4s}
-.rp-eq.on{opacity:1}
-.rp-eq-b{width:3px;border-radius:2px 2px 0 0;background:linear-gradient(to top,var(--red),var(--gold));animation:eqb var(--d,.7s) ease-in-out infinite alternate}
-.rp-controls{display:flex;align-items:center;gap:16px}
-.rp-play{
-  width:54px;height:54px;border-radius:50%;flex-shrink:0;
+.ri-title{
+  font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;
+  color:#fff;letter-spacing:3px;
+  text-shadow:0 0 20px var(--red),0 0 40px rgba(206,17,38,.3);
+  margin-bottom:10px;
+}
+.ri-sub{
+  font-size:13px;color:#a08080;line-height:1.7;
+  max-width:380px;margin:0 auto 26px;
+}
+.ri-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 32px;
   background:linear-gradient(135deg,var(--red),#8b0015);
-  border:none;color:#fff;font-size:22px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 18px rgba(206,17,38,.4);
-  transition:transform .15s,box-shadow .15s;
+  border-radius:10px;color:#fff;text-decoration:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;
+  box-shadow:0 0 24px rgba(206,17,38,.35);
+  transition:all .25s;
 }
-.rp-play:hover{transform:scale(1.09);box-shadow:0 0 28px rgba(206,17,38,.6)}
-.rp-vol-wrap{flex:1;display:flex;align-items:center;gap:10px}
-.rp-vol-ico{font-size:14px;color:var(--muted)}
-.rp-vol{
-  -webkit-appearance:none;appearance:none;flex:1;height:4px;
-  border-radius:2px;outline:none;
-  background:rgba(255,255,255,.1);
+.ri-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 36px rgba(206,17,38,.55);
 }
-.rp-vol::-webkit-slider-thumb{
-  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
-  background:var(--gold);box-shadow:0 0 6px rgba(212,160,23,.5);cursor:pointer;
+.ri-note{
+  margin-top:16px;font-size:10px;
+  font-family:'Orbitron',sans-serif;letter-spacing:2px;
+  color:rgba(255,255,255,.2);
 }
-.rp-status{font-size:11px;color:var(--muted);margin-top:14px;text-align:center;font-family:'Orbitron',sans-serif;letter-spacing:1px}
-.rp-status.ok{color:var(--gold)}
-.rp-status.err{color:var(--red)}
-.radio-link-bar{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--muted);padding:4px 0}
-.radio-link{color:var(--red);font-weight:600;text-decoration:none;letter-spacing:.5px;transition:opacity .2s}
-.radio-link:hover{opacity:.75}
 
 /* FRIENDS */
 .friends-grid{
@@ -734,29 +734,17 @@ body::before{
   <!-- ══ RADIO ══ -->
   <div id="t-radio" class="t-panel">
     <div class="sec-title">Radio en Vivo</div>
-    <div class="rp-wrap">
-      <audio id="ra" preload="none"></audio>
-      <div class="rp-top">
-        <div class="rp-logo">📡</div>
-        <div class="rp-info">
-          <div class="rp-station">LATIDOS69 RADIO</div>
-          <div class="rp-live"><span class="rp-live-dot"></span> EN VIVO</div>
-          <div class="rp-eq" id="rp-eq"></div>
-        </div>
+    <div class="radio-invite">
+      <div class="ri-waves">
+        <span></span><span></span><span></span><span></span><span></span>
       </div>
-      <div class="rp-controls">
-        <button class="rp-play" id="rp-btn" onclick="rpToggle()">▶</button>
-        <div class="rp-vol-wrap">
-          <span class="rp-vol-ico">🔈</span>
-          <input class="rp-vol" id="rp-vol" type="range" min="0" max="1" step="0.02" value="0.8" oninput="rpVol(this.value)">
-          <span class="rp-vol-ico">🔊</span>
-        </div>
-      </div>
-      <div class="rp-status" id="rp-status">Presiona ▶ para escuchar</div>
-    </div>
-    <div class="radio-link-bar">
-      <span>Tecnología provista por</span>
-      <a href="https://streamingjca.com/service-details.html" target="_blank" class="radio-link">streamingjca.com</a>
+      <div class="ri-icon">📡</div>
+      <div class="ri-title">LATIDOS69 RADIO</div>
+      <div class="ri-sub">Escucha nuestra radio en vivo directamente en nuestro chat. ¡La señal siempre está activa!</div>
+      <a href="https://xat.com/LATIDOS69" class="ri-btn" target="_blank">
+        Entrar al Chat · Escuchar Radio
+      </a>
+      <div class="ri-note">XAT.COM/LATIDOS69 · EN VIVO 24/7</div>
     </div>
   </div>
 
@@ -982,56 +970,6 @@ body::before{
 </div><!-- /wrapper -->
 
 <script>
-// ── RADIO PLAYER HTML5 ──
-const STREAM_URL = 'https://eu.streamingjca.com:8002/stream';
-const ra    = document.getElementById('ra');
-const rpBtn = document.getElementById('rp-btn');
-const rpStat = document.getElementById('rp-status');
-const rpEq  = document.getElementById('rp-eq');
-let rpPlaying = false;
-
-// Genera barras EQ decorativas del player
-for (let i = 0; i < 14; i++) {
-  const b = document.createElement('div');
-  b.className = 'rp-eq-b';
-  b.style.cssText = `--h:${(Math.random()*12+4).toFixed(0)}px;--d:${(Math.random()*.5+.35).toFixed(2)}s`;
-  rpEq.appendChild(b);
-}
-
-function rpToggle() {
-  if (!rpPlaying) {
-    ra.src = STREAM_URL;
-    ra.load();
-    ra.play().then(() => {
-      rpPlaying = true;
-      rpBtn.textContent = '⏸';
-      rpEq.classList.add('on');
-      rpStat.className = 'rp-status ok';
-      rpStat.textContent = 'Conectado · En vivo';
-    }).catch(() => {
-      rpStat.className = 'rp-status err';
-      rpStat.textContent = 'No se pudo conectar al stream';
-    });
-    rpStat.className = 'rp-status';
-    rpStat.textContent = 'Conectando...';
-  } else {
-    ra.pause();
-    ra.src = '';
-    rpPlaying = false;
-    rpBtn.textContent = '▶';
-    rpEq.classList.remove('on');
-    rpStat.className = 'rp-status';
-    rpStat.textContent = 'Presiona ▶ para escuchar';
-  }
-}
-
-function rpVol(v) { ra.volume = v; }
-
-ra.addEventListener('error', () => {
-  rpPlaying = false; rpBtn.textContent = '▶'; rpEq.classList.remove('on');
-  rpStat.className = 'rp-status err';
-  rpStat.textContent = 'Stream no disponible · Intenta más tarde';
-});
 
 function goTab(id, btn) {
   document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('on'));
