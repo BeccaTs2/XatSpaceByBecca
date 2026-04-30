@@ -132,6 +132,24 @@
     .friend-status { font-size: 0.66rem; color: #a07ab0; }
     .friend-xat-badge { display: inline-block; margin-top: 6px; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(156,39,176,0.1); border: 1px solid rgba(156,39,176,0.25); color: #9c27b0; border-radius: 50px; padding: 2px 8px; }
 
+    .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .price-card { background: rgba(255,255,255,0.6); border: 1.5px solid rgba(186,104,200,0.22); border-radius: 18px; padding: 20px 16px; text-align: center; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+    .price-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(186,104,200,0.2); }
+    .featured-card { border-color: rgba(233,30,99,0.4); background: rgba(255,255,255,0.8); box-shadow: 0 4px 20px rgba(233,30,99,0.12); }
+    .price-popular { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg,#e91e63,#9c27b0); color: #fff; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; padding: 3px 12px; border-radius: 50px; white-space: nowrap; }
+    .price-tier { color: #fff; font-family: 'Fredoka One', cursive; font-size: 1rem; border-radius: 10px; padding: 6px 14px; display: inline-block; margin-bottom: 12px; letter-spacing: 1px; }
+    .price-amount { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #7b1fa2; margin-bottom: 14px; line-height: 1; }
+    .price-amount span { font-size: 0.85rem; color: #a07ab0; font-family: 'Nunito', sans-serif; font-weight: 700; }
+    .price-features { list-style: none; text-align: left; margin-bottom: 18px; display: flex; flex-direction: column; gap: 7px; }
+    .price-features li { font-size: 0.78rem; color: #4a2a5a; display: flex; align-items: center; gap: 7px; }
+    .price-features li::before { content: '✓'; color: #9c27b0; font-weight: 900; font-size: 0.8rem; flex-shrink: 0; }
+    .price-features li.no { color: #b09ac0; }
+    .price-features li.no::before { content: '✗'; color: #d0aae0; }
+    .price-btn { display: block; padding: 9px 16px; border-radius: 12px; background: rgba(156,39,176,0.1); border: 1.5px solid rgba(156,39,176,0.3); color: #7b1fa2; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; text-decoration: none; transition: all 0.2s; }
+    .price-btn:hover { background: rgba(156,39,176,0.18); box-shadow: 0 4px 14px rgba(156,39,176,0.2); }
+    .price-btn-featured { background: linear-gradient(135deg,#e91e63,#9c27b0); color: #fff; border-color: transparent; box-shadow: 0 4px 16px rgba(233,30,99,0.3); }
+    .price-btn-featured:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(233,30,99,0.4); }
+
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
     .gallery-item { border-radius: 14px; overflow: hidden; border: 2px solid rgba(186,104,200,0.2); transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; position: relative; background: #f3d9ff; }
     .gallery-item:hover { transform: scale(1.04); box-shadow: 0 8px 28px rgba(186,104,200,0.3); border-color: rgba(233,30,99,0.5); }
@@ -327,6 +345,58 @@
       <div class="xat-card">
         <h3>Quieres tu propio XAT SPACE?</h3>
         <p>Este perfil es una muestra de lo que puedo crear para ti.<br>Perfiles personalizados · Frames anime · GIFs · Webs kawaii<br><br><strong>Escribeme por Xat para pedir el tuyo</strong></p>
+      </div>
+      <div class="content-card" style="margin-top:16px">
+        <div class="card-title">Mis Precios · XAT SPACE</div>
+        <div class="price-grid">
+
+          <div class="price-card">
+            <div class="price-tier" style="background:linear-gradient(135deg,#ba68c8,#9c27b0)">Simple</div>
+            <div class="price-amount">500 <span>xat</span></div>
+            <ul class="price-features">
+              <li>Diseño personalizado</li>
+              <li>Tema + colores a elección</li>
+              <li>Cursor animado</li>
+              <li>Tabs con contenido</li>
+              <li class="no">Música</li>
+              <li class="no">Reseñas funcionales</li>
+            </ul>
+            <a href="https://xat.com/" class="price-btn" target="_blank">Pedir ahora</a>
+          </div>
+
+          <div class="price-card featured-card">
+            <div class="price-popular">★ Más pedido</div>
+            <div class="price-tier" style="background:linear-gradient(135deg,#e91e63,#9c27b0)">Red Social</div>
+            <div class="price-amount">2.500 <span>xat</span></div>
+            <ul class="price-features">
+              <li>Diseño 100% personalizado</li>
+              <li>Fondo + efectos animados</li>
+              <li>Cursor animado</li>
+              <li>Tabs · Amigos · Galería</li>
+              <li>Música integrada</li>
+              <li class="no">Reseñas funcionales</li>
+            </ul>
+            <a href="https://xat.com/" class="price-btn price-btn-featured" target="_blank">Pedir ahora</a>
+          </div>
+
+          <div class="price-card">
+            <div class="price-tier" style="background:linear-gradient(135deg,#f9a825,#e91e63)">Comercial</div>
+            <div class="price-amount">5.000 <span>xat</span></div>
+            <ul class="price-features">
+              <li>Diseño profesional único</li>
+              <li>Fondo + partículas + efectos</li>
+              <li>Cursor animado</li>
+              <li>Tabs · Planes · Galería</li>
+              <li>Música integrada</li>
+              <li>Reseñas funcionales ✦</li>
+            </ul>
+            <a href="https://xat.com/" class="price-btn" target="_blank">Pedir ahora</a>
+          </div>
+
+        </div>
+        <p style="font-size:0.72rem;color:#a07ab0;text-align:center;margin-top:16px;line-height:1.6">
+          Precios orientativos · Escríbeme para un presupuesto personalizado según tu idea.
+        </p>
       </div>
     </div>
 
