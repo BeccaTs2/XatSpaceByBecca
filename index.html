@@ -319,34 +319,42 @@
 
     <!-- Tabs -->
     <nav class="tab-nav" role="tablist">
-      <button class="tab-btn active" onclick="showTab('inicio', this)">Inicio</button>
+      <button class="tab-btn active" onclick="showTab('galeria', this)">Galeria</button>
+      <button class="tab-btn" onclick="showTab('precios', this)">Precios</button>
+      <button class="tab-btn" onclick="showTab('inicio', this)">Inicio</button>
       <button class="tab-btn" onclick="showTab('amigos', this)">Amigos</button>
-      <button class="tab-btn" onclick="showTab('galeria', this)">Galeria</button>
       <button class="tab-btn" onclick="showTab('musica', this)">Musica</button>
       <button class="tab-btn" onclick="showTab('sobre', this)">Sobre mi</button>
     </nav>
 
-    <!-- INICIO -->
-    <div class="tab-content active" id="tab-inicio">
+    <!-- GALERIA (primera / activa) -->
+    <div class="tab-content active" id="tab-galeria">
       <div class="content-card">
-        <div class="card-title">Bienvenida a mi espacio</div> 
-        <div class="about-text">
-          <p>Hola! Soy <strong>Becca</strong>, creadora de perfiles y frames animados para Xat.</p>
-          <p>Me especializo en hacer espacios personalizados con tu personaje favorito, tu estetica y tu musica. Cada perfil es unico y hecho con mucho amor.</p>
-          <p>Este espacio esta dedicado a <strong>Frieren</strong>, mi anime favorito. Si quieres el tuyo con cualquier otro personaje, escribeme.</p>
-        </div>
-        <div class="info-grid">
-          <div class="info-row"><span class="info-key">Servicio</span><span class="info-val">XAT SPACE</span></div>
-          <div class="info-row"><span class="info-key">Especialidad</span><span class="info-val">Frames · Perfiles Anime</span></div>
-          <div class="info-row"><span class="info-key">Estilo</span><span class="info-val">Kawaii · Cyber · Anime</span></div>
-          <div class="info-row"><span class="info-key">Estado</span><span class="info-val">Disponible</span></div>
+        <div class="card-title">Mi Galeria de Frames</div>
+        <div class="gallery-grid">
+          <a href="OmarFrameByBecca.html" class="gallery-item">
+            <img src="https://xatimg.com/image/ahQVVTBR50pr.gif" alt="Omar Frame" referrerpolicy="no-referrer">
+            <div class="gallery-caption">Omar Minimalist — Ver Frame</div>
+          </a>
+          <a href="pikachu.html" class="gallery-item">
+            <img src="pika.gif" alt="Pikachu" referrerpolicy="no-referrer">
+            <div class="gallery-caption">Pikachu — Ver Frame</div>
+          </a>
+          <a href="Latidos69ByBecca.html" class="gallery-item">
+            <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Latidos69" referrerpolicy="no-referrer">
+            <div class="gallery-caption">Latidos69 Streaming — Ver Frame</div>
+          </a>
+          <a href="LewanByBecca.html" class="gallery-item">
+            <img src="https://i.imgur.com/prS18si.gif" alt="Lewan Itachi" referrerpolicy="no-referrer" style="object-position:center">
+            <div class="gallery-caption">Lewan · Itachi Edition — Ver Space</div>
+          </a>
         </div>
       </div>
-      <div class="xat-card">
-        <h3>Quieres tu propio XAT SPACE?</h3>
-        <p>Este perfil es una muestra de lo que puedo crear para ti.<br>Perfiles personalizados · Frames anime · GIFs · Webs kawaii<br><br><strong>Escribeme por Xat para pedir el tuyo</strong></p>
-      </div>
-      <div class="content-card" style="margin-top:16px">
+    </div>
+
+    <!-- PRECIOS -->
+    <div class="tab-content" id="tab-precios">
+      <div class="content-card">
         <div class="card-title">Mis Precios · XAT SPACE</div>
         <div class="price-grid">
 
@@ -398,6 +406,28 @@
           Precios orientativos · Escríbeme para un presupuesto personalizado según tu idea.
         </p>
       </div>
+      <div class="xat-card">
+        <h3>Quieres tu propio XAT SPACE?</h3>
+        <p>Perfiles personalizados · Frames anime · GIFs · Webs kawaii<br><br><strong>Escribeme por Xat para pedir el tuyo</strong></p>
+      </div>
+    </div>
+
+    <!-- INICIO -->
+    <div class="tab-content" id="tab-inicio">
+      <div class="content-card">
+        <div class="card-title">Bienvenida a mi espacio</div>
+        <div class="about-text">
+          <p>Hola! Soy <strong>Becca</strong>, creadora de perfiles y frames animados para Xat.</p>
+          <p>Me especializo en hacer espacios personalizados con tu personaje favorito, tu estetica y tu musica. Cada perfil es unico y hecho con mucho amor.</p>
+          <p>Este espacio esta dedicado a <strong>Frieren</strong>, mi anime favorito. Si quieres el tuyo con cualquier otro personaje, escribeme.</p>
+        </div>
+        <div class="info-grid">
+          <div class="info-row"><span class="info-key">Servicio</span><span class="info-val">XAT SPACE</span></div>
+          <div class="info-row"><span class="info-key">Especialidad</span><span class="info-val">Frames · Perfiles Anime</span></div>
+          <div class="info-row"><span class="info-key">Estilo</span><span class="info-val">Kawaii · Cyber · Anime</span></div>
+          <div class="info-row"><span class="info-key">Estado</span><span class="info-val">Disponible</span></div>
+        </div>
+      </div>
     </div>
 
     <!-- AMIGOS -->
@@ -424,31 +454,6 @@
             <div class="friend-id">ID: 271946815</div>
             <div class="friend-status">Amigo</div>
             <span class="friend-xat-badge">xat.com</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- GALERIA -->
-    <div class="tab-content" id="tab-galeria">
-      <div class="content-card">
-        <div class="card-title">Mi Galeria de Frames</div> 
-        <div class="gallery-grid">
-          <!-- Link al Frame de Omar -->
-          <a href="OmarFrameByBecca.html" class="gallery-item">
-            <img src="https://xatimg.com/image/ahQVVTBR50pr.gif" alt="Omar Frame" referrerpolicy="no-referrer">
-            <div class="gallery-caption">Omar Minimalist — Ver Frame</div>
-          </a>
-
-          <a href="pikachu.html" class="gallery-item">
-            <img src="pika.gif" alt="Pikachu" referrerpolicy="no-referrer">
-            <div class="gallery-caption">Pikachu — Ver Frame</div>
-          </a>
-
-          <!-- Latidos69 Streaming -->
-          <a href="Latidos69ByBecca.html" class="gallery-item">
-            <img src="https://xatimg.com/image/tmEaGLh4z7tM.gif" alt="Latidos69" referrerpolicy="no-referrer">
-            <div class="gallery-caption">Latidos69 Streaming — Ver Frame</div>
           </a>
         </div>
       </div>
