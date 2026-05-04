@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>faLknermeister · Itachi</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+
+    body {
+      position: relative;
+      background: #000;
+    }
+
+    /* GIF como imagen para evitar el bloqueo de hotlink de imgur */
+    .bg-img {
+      position: fixed; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+    }
+
+    /* Vignette */
+    .vignette {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 30%,
+        rgba(6,0,2,0.42) 65%,
+        rgba(2,0,1,0.78) 100%
+      );
+    }
+
+    /* Niebla roja baja */
+    .mist {
+      position: fixed; inset: 0; z-index: 2; pointer-events: none;
+      background: radial-gradient(ellipse 85% 38% at 50% 108%,
+        rgba(120,0,0,0.30) 0%, transparent 70%);
+      animation: mistPulse 4s ease-in-out infinite;
+    }
+    @keyframes mistPulse {
+      0%,100% { opacity: 0.7; } 50% { opacity: 1; }
+    }
+
+    /* Scan lines */
+    .scanlines {
+      position: fixed; inset: 0; z-index: 3; pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
+      );
+    }
+
+    /* Sweep */
+    .sweep {
+      position: fixed; left: 0; right: 0; height: 3px;
+      z-index: 4; pointer-events: none;
+      background: linear-gradient(90deg, transparent, rgba(192,57,43,0.65), transparent);
+      animation: sweepDown 7s linear infinite; top: -4px;
+    }
+    @keyframes sweepDown { to { top: 110%; } }
+
+    /* Blobs de glow */
+    .glow-blob {
+      position: fixed; border-radius: 50%; pointer-events: none;
+      filter: blur(65px); z-index: 2;
+    }
+    .blob-tl {
+      width: 300px; height: 300px; top: -90px; left: -90px;
+      background: radial-gradient(circle, rgba(139,0,0,0.38), transparent 70%);
+      animation: blobFloat 7s ease-in-out infinite;
+    }
+    .blob-br {
+      width: 260px; height: 260px; bottom: -70px; right: -70px;
+      background: radial-gradient(circle, rgba(192,57,43,0.30), transparent 70%);
+      animation: blobFloat 9s ease-in-out infinite reverse;
+    }
+    .blob-tr {
+      width: 180px; height: 180px; top: 8%; right: 4%;
+      background: radial-gradient(circle, rgba(80,0,0,0.22), transparent 70%);
+      animation: blobFloat 5.5s ease-in-out infinite 1.2s;
+    }
+    @keyframes blobFloat {
+      0%,100% { transform: scale(1); opacity: 0.8; }
+      50%     { transform: scale(1.18); opacity: 1; }
+    }
+
+    /* Marco decorativo */
+    .frame-border {
+      position: fixed; inset: 7px; z-index: 5; pointer-events: none;
+      border: 2px solid rgba(192,57,43,0.38); border-radius: 10px;
+      animation: framePulse 3s ease-in-out infinite;
+    }
+    @keyframes framePulse {
+      0%,100% { border-color: rgba(192,57,43,0.30); box-shadow: inset 0 0 40px rgba(139,0,0,0.08); }
+      50%     { border-color: rgba(192,57,43,0.55); box-shadow: inset 0 0 65px rgba(139,0,0,0.18), 0 0 35px rgba(139,0,0,0.14); }
+    }
+
+    /* Título */
+    .title {
+      position: absolute; top: 18px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: clamp(0.9rem, 2.4vw, 1.65rem);
+      color: #eec8c8; letter-spacing: 7px; white-space: nowrap;
+      text-shadow:
+        0 0 14px rgba(192,57,43,1),
+        0 0 35px rgba(139,0,0,0.6),
+        0 3px 8px rgba(0,0,0,0.9);
+      pointer-events: none; z-index: 20;
+      text-transform: uppercase;
+      animation: titleGlow 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes titleGlow {
+      from { text-shadow: 0 0 12px rgba(192,57,43,0.9), 0 0 28px rgba(139,0,0,0.5), 0 3px 8px rgba(0,0,0,0.9); }
+      to   { text-shadow: 0 0 22px rgba(192,57,43,1), 0 0 55px rgba(139,0,0,0.7), 0 3px 8px rgba(0,0,0,0.9), 0 0 90px rgba(192,57,43,0.22); }
+    }
+
+    /* ID abajo */
+    .id-label {
+      position: absolute; bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Arial', sans-serif;
+      font-size: clamp(0.58rem, 1.3vw, 0.82rem);
+      color: rgba(220,160,160,0.80);
+      letter-spacing: 3px; white-space: nowrap;
+      text-shadow: 0 0 10px rgba(139,0,0,0.7), 0 2px 4px rgba(0,0,0,0.9);
+      pointer-events: none; z-index: 20;
+    }
+
+    /* Sharingan esquinas */
+    .sharingan-deco {
+      position: absolute; pointer-events: none; z-index: 6;
+      animation: slowSpin 22s linear infinite;
+    }
+    @keyframes slowSpin { to { transform: rotate(360deg); } }
+
+    /* Partículas */
+    .particle {
+      position: fixed; pointer-events: none; z-index: 7;
+      animation: fall var(--dur) linear var(--delay) infinite;
+      top: -40px;
+      filter: drop-shadow(0 0 4px rgba(192,57,43,0.55));
+    }
+    @keyframes fall { to { transform: translateY(110vh) rotate(900deg); opacity: 0; } }
+
+    /* Lluvia roja */
+    .rain-drop {
+      position: fixed; pointer-events: none; z-index: 3;
+      width: 1px; border-radius: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(192,57,43,0.50));
+      animation: rainFall var(--rdur) linear var(--rdelay) infinite;
+      top: -60px;
+    }
+    @keyframes rainFall { to { transform: translateY(110vh); opacity: 0; } }
+
+    /* Líneas laterales */
+    .side-line {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      pointer-events: none; z-index: 8;
+      animation: linePulse 3s ease-in-out infinite;
+    }
+    @keyframes linePulse { 0%,100% { opacity: 0.18; } 50% { opacity: 0.45; } }
+  </style>
+</head>
+<body>
+
+  <img class="bg-img" src="https://i.imgur.com/prS18si.gif" referrerpolicy="no-referrer" alt="">
+
+  <div class="vignette"></div>
+  <div class="mist"></div>
+  <div class="scanlines"></div>
+  <div class="sweep"></div>
+  <div class="glow-blob blob-tl"></div>
+  <div class="glow-blob blob-br"></div>
+  <div class="glow-blob blob-tr"></div>
+  <div class="frame-border"></div>
+
+  <div class="title">faLknermeister</div>
+  <div class="id-label">Lewan &nbsp;·&nbsp; ID 286456329 &nbsp;·&nbsp; Itachi Fan</div>
+
+  <!-- Sharingan sup-izq -->
+  <svg class="sharingan-deco" style="top:-55px;left:-55px;width:260px;opacity:0.10;"
+       viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" fill="none" stroke="#c0392b" stroke-width="3"/>
+    <circle cx="100" cy="100" r="70" fill="none" stroke="#8b0000" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="28" fill="#8b0000"/>
+    <circle cx="100" cy="100" r="16" fill="#c0392b"/>
+    <circle cx="100" cy="100" r="7"  fill="#1a0005"/>
+    <circle cx="100" cy="64"  r="9"  fill="#c0392b"/>
+    <circle cx="131" cy="122" r="9"  fill="#c0392b"/>
+    <circle cx="69"  cy="122" r="9"  fill="#c0392b"/>
+  </svg>
+
+  <!-- Sharingan inf-der -->
+  <svg class="sharingan-deco" style="bottom:-55px;right:-55px;width:210px;opacity:0.08;animation-direction:reverse;"
+       viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" fill="none" stroke="#c0392b" stroke-width="3"/>
+    <circle cx="100" cy="100" r="70" fill="none" stroke="#8b0000" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="28" fill="#8b0000"/>
+    <circle cx="100" cy="100" r="16" fill="#c0392b"/>
+    <circle cx="100" cy="100" r="7"  fill="#1a0005"/>
+    <circle cx="100" cy="64"  r="9"  fill="#c0392b"/>
+    <circle cx="131" cy="122" r="9"  fill="#c0392b"/>
+    <circle cx="69"  cy="122" r="9"  fill="#c0392b"/>
+  </svg>
+
+  <!-- Líneas laterales -->
+  <svg class="side-line" style="left:5%;" width="2" height="50%">
+    <line x1="1" y1="0" x2="1" y2="100%" stroke="rgba(192,57,43,0.5)" stroke-width="2" stroke-dasharray="6 10"/>
+  </svg>
+  <svg class="side-line" style="right:5%;" width="2" height="50%">
+    <line x1="1" y1="0" x2="1" y2="100%" stroke="rgba(192,57,43,0.5)" stroke-width="2" stroke-dasharray="6 10"/>
+  </svg>
+
+  <script>
+    // Plumas y brasas
+    ['🪶','🪶','🪶','🔥','✦','🪶','🔥','✧','🪶'].forEach(function(p) {
+      var el = document.createElement('div');
+      el.className = 'particle';
+      el.innerHTML  = p;
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.fontSize = (Math.random() * 7 + 9) + 'px';
+      el.style.setProperty('--dur',   (Math.random() * 7 + 7) + 's');
+      el.style.setProperty('--delay', '-' + (Math.random() * 10) + 's');
+      el.style.opacity = (Math.random() * 0.38 + 0.12).toFixed(2);
+      document.body.appendChild(el);
+    });
+
+    // Lluvia roja
+    for (var i = 0; i < 30; i++) {
+      var drop = document.createElement('div');
+      drop.className = 'rain-drop';
+      drop.style.left    = (Math.random() * 100) + 'vw';
+      drop.style.height  = (Math.random() * 55 + 28) + 'px';
+      drop.style.opacity = (Math.random() * 0.32 + 0.07).toFixed(2);
+      drop.style.setProperty('--rdur',   (Math.random() * 1.4 + 1.1) + 's');
+      drop.style.setProperty('--rdelay', '-' + (Math.random() * 3) + 's');
+      document.body.appendChild(drop);
+    }
+
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J'].includes(e.key))) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
