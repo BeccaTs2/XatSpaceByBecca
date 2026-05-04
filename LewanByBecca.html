@@ -125,7 +125,8 @@
       font-family: 'Arial', sans-serif;
       font-size: clamp(0.58rem, 1.3vw, 0.82rem);
       color: rgba(220,160,160,0.80);
-      letter-spacing: 3px; white-space: nowrap;
+      letter-spacing: 1px; white-space: normal; text-align: center;
+      max-width: 85%; line-height: 1.6;
       text-shadow: 0 0 10px rgba(139,0,0,0.7), 0 2px 4px rgba(0,0,0,0.9);
       pointer-events: none; z-index: 20;
     }
@@ -179,7 +180,7 @@
   <div class="frame-border"></div>
 
   <div class="title">faLknermeister</div>
-  <div class="id-label">Lewan &nbsp;·&nbsp; ID 286456329 &nbsp;·&nbsp; Itachi Fan</div>
+  <div class="id-label">Lewan &nbsp;·&nbsp; ID 286456329 &nbsp;·&nbsp; "Las personas viven atadas a lo que aceptan como correcto y verdadero. Así es como definen la 'realidad'"</div>
 
   <!-- Sharingan sup-izq -->
   <svg class="sharingan-deco" style="top:-55px;left:-55px;width:260px;opacity:0.10;"
@@ -215,6 +216,8 @@
     <line x1="1" y1="0" x2="1" y2="100%" stroke="rgba(192,57,43,0.5)" stroke-width="2" stroke-dasharray="6 10"/>
   </svg>
 
+  <audio src="music/frase.mp3" loop autoplay id="bgAudio" style="display:none"></audio>
+
   <script>
     // Plumas y brasas
     ['🪶','🪶','🪶','🔥','✦','🪶','🔥','✧','🪶'].forEach(function(p) {
@@ -240,6 +243,19 @@
       drop.style.setProperty('--rdelay', '-' + (Math.random() * 3) + 's');
       document.body.appendChild(drop);
     }
+
+    // Autoplay fallback: activa el audio al primer clic si el navegador lo bloqueó
+    var audio = document.getElementById('bgAudio');
+    audio.volume = 0.5;
+    function unlockAudio() {
+      audio.play().catch(function(){});
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('touchstart', unlockAudio);
+    }
+    audio.play().catch(function() {
+      document.addEventListener('click', unlockAudio);
+      document.addEventListener('touchstart', unlockAudio);
+    });
 
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
     document.addEventListener('keydown', function(e) {
