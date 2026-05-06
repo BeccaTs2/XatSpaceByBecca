@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>isaacgadieL · XAT SPACE — By Becca</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; }
+
+    /* ── Cursor ── */
+    .cursor-dot {
+      position: fixed; pointer-events: none; z-index: 99999; top: 0; left: 0;
+      width: 12px; height: 12px; background: #42a5f5;
+      border-radius: 50%; transform: translate(-50%, -50%);
+      box-shadow: 0 0 14px rgba(66,165,245,0.9);
+    }
+    .cursor-ring {
+      position: fixed; pointer-events: none; z-index: 99998;
+      width: 32px; height: 32px;
+      border: 2px solid rgba(66,165,245,0.55); top: 0; left: 0;
+      border-radius: 50%; transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    .cursor-star {
+      position: fixed; pointer-events: none; z-index: 99997;
+      font-size: 16px; transform: translate(-50%, -130%);
+      animation: starSpin 3s linear infinite;
+    }
+    @keyframes starSpin { to { transform: translate(-50%, -130%) rotate(360deg); } }
+    body.clicking .cursor-dot { width: 18px; height: 18px; background: #1565c0; }
+    body.clicking .cursor-ring { width: 42px; height: 42px; border-color: #42a5f5; }
+
+    body {
+      background: radial-gradient(circle at 20% 0%, #0d1b3e 0%, #050d1a 50%, #040912 100%);
+      font-family: 'Nunito', sans-serif; color: #e3f2fd; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 8px;
+      border: 2px solid rgba(33,150,243,0.18); border-radius: 26px;
+      pointer-events: none; z-index: 9000;
+      box-shadow: inset 0 0 60px rgba(21,101,192,0.10);
+    }
+    .sparkle {
+      position: fixed; width: 5px; height: 5px; background: #42a5f5;
+      border-radius: 50%; pointer-events: none; z-index: 9999;
+      box-shadow: 0 0 8px rgba(66,165,245,0.7); animation: sparkleAnim 0.8s linear forwards;
+    }
+    @keyframes sparkleAnim { to { transform: scale(0) translateY(15px); opacity: 0; } }
+    .petal { position: fixed; font-size: 14px; pointer-events: none; animation: petalFall 7s linear infinite; top: -40px; z-index: 0; color: #64b5f6; }
+    @keyframes petalFall { to { transform: translateY(110vh) rotate(540deg); opacity: 0; } }
+
+    /* ── Banner ── */
+    .service-banner {
+      background: linear-gradient(90deg, #0a1228, #0d3b80, #0a1228);
+      background-size: 200% auto; animation: bannerShift 4s linear infinite;
+      color: #90caf9; text-align: center; padding: 6px 20px;
+      font-size: 0.72rem; letter-spacing: 2px; font-weight: 700; text-transform: uppercase;
+      z-index: 100; position: relative;
+    }
+    @keyframes bannerShift { to { background-position: 200% center; } }
+
+    .wrapper { max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; position: relative; z-index: 10; }
+
+    /* ── Profile Header ── */
+    .profile-header {
+      background: rgba(13,27,62,0.75); backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(33,150,243,0.18); border-radius: 24px;
+      padding: 28px 28px 20px; display: flex; gap: 28px; align-items: flex-start;
+      box-shadow: 0 8px 40px rgba(10,18,40,0.55), 0 0 0 1px rgba(33,150,243,0.08); margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .avatar-wrap { position: relative; flex-shrink: 0; }
+    .avatar-ring {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: conic-gradient(#1565c0, #42a5f5, #0d47a1, #1976d2, #64b5f6, #1565c0);
+      padding: 3px; animation: rotateRing 6s linear infinite;
+    }
+    @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .avatar-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; border: 4px solid #0a1228; }
+    .online-dot { position: absolute; bottom: 6px; right: 6px; width: 16px; height: 16px; border-radius: 50%; background: #42a5f5; border: 3px solid #0a1228; box-shadow: 0 0 12px rgba(66,165,245,0.9); }
+    .profile-info { flex: 1; min-width: 200px; }
+    .profile-name { font-family: 'Fredoka One', cursive; font-size: 1.9rem; color: #90caf9; text-shadow: 2px 2px 0 rgba(0,0,0,0.55), 0 0 28px rgba(33,150,243,0.35); margin-bottom: 4px; }
+    .profile-handle { font-size: 0.78rem; color: #42a5f5; letter-spacing: 1px; margin-bottom: 10px; font-weight: 700; }
+    .profile-bio { font-size: 0.88rem; color: #bbdefb; line-height: 1.6; margin-bottom: 14px; }
+    .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ptag { font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 50px; background: rgba(33,150,243,0.10); border: 1px solid rgba(33,150,243,0.25); color: #90caf9; }
+    .ptag.pink { background: rgba(66,165,245,0.10); border-color: rgba(66,165,245,0.30); color: #bbdefb; }
+    .ptag.cyan { background: rgba(21,101,192,0.10); border-color: rgba(21,101,192,0.30); color: #64b5f6; }
+    .profile-stats { display: flex; gap: 24px; margin-left: auto; align-items: center; flex-shrink: 0; flex-wrap: wrap; }
+    .stat-box { text-align: center; }
+    .stat-num { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: #42a5f5; display: block; }
+    .stat-label { font-size: 0.65rem; color: #5c8bbb; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+
+    /* ── Tab Nav ── */
+    .tab-nav {
+      background: rgba(10,18,40,0.80); backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(33,150,243,0.14); border-radius: 18px;
+      padding: 8px; display: flex; gap: 4px; margin-bottom: 18px;
+      overflow-x: auto; scrollbar-width: none; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-btn { flex: 1; min-width: 80px; padding: 9px 14px; border-radius: 12px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700; color: #7bafd4; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
+    .tab-btn:hover { background: rgba(33,150,243,0.10); color: #90caf9; }
+    .tab-btn.active { background: linear-gradient(135deg, #0d3b80, #1565c0); color: #e3f2fd; box-shadow: 0 4px 16px rgba(13,59,128,0.55); }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .content-card { background: rgba(10,18,40,0.75); backdrop-filter: blur(14px); border: 1.5px solid rgba(33,150,243,0.14); border-radius: 20px; padding: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.35); margin-bottom: 16px; }
+    .card-title { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #90caf9; margin-bottom: 16px; }
+    .about-text { font-size: 0.9rem; line-height: 1.8; color: #bbdefb; }
+    .about-text p { margin-bottom: 12px; }
+    .about-text strong { color: #64b5f6; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+    .info-row { display: flex; flex-direction: column; background: rgba(13,59,128,0.12); border: 1px solid rgba(33,150,243,0.14); border-radius: 12px; padding: 10px 14px; }
+    .info-key { font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; color: #5c8bbb; font-weight: 700; }
+    .info-val { font-size: 0.85rem; color: #e3f2fd; font-weight: 700; margin-top: 2px; }
+    .xat-card { background: linear-gradient(135deg, rgba(13,59,128,0.18), rgba(13,27,62,0.14)); border: 1.5px solid rgba(33,150,243,0.18); border-radius: 18px; padding: 20px; text-align: center; overflow: hidden; }
+    .xat-card h3 { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #90caf9; margin-bottom: 8px; }
+    .xat-card p { font-size: 0.82rem; color: #bbdefb; line-height: 1.7; }
+    .xat-animate { display:flex; flex-direction:column; align-items:center; gap:14px; }
+    .pulse-ring { width: 100%; max-width: 280px; height: 4px; border-radius: 999px; background: rgba(33,150,243,0.12); position: relative; overflow: hidden; }
+    .pulse-ring::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(66,165,245,0.9), transparent); transform: translateX(-120%); animation: pulseMove 2.2s linear infinite; }
+    .neon-text { font-size: 1rem; font-weight: 800; color: #90caf9; letter-spacing: 0.4px; text-shadow: 0 0 14px rgba(66,165,245,0.40), 0 0 28px rgba(33,150,243,0.18); animation: glowPulseText 2.4s ease-in-out infinite alternate; }
+    .tiny-note { font-size: 0.78rem; color: #bbdefb; line-height: 1.6; }
+    @keyframes pulseMove { to { transform: translateX(120%); } }
+    @keyframes glowPulseText { from { text-shadow: 0 0 10px rgba(66,165,245,0.22), 0 0 20px rgba(33,150,243,0.10); } to { text-shadow: 0 0 22px rgba(66,165,245,0.50), 0 0 40px rgba(33,150,243,0.25); } }
+
+    /* ── Friends ── */
+    .friends-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px; }
+    .friend-card { background: rgba(10,18,40,0.65); border: 1.5px solid rgba(33,150,243,0.14); border-radius: 18px; padding: 16px 10px 12px; text-align: center; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; text-decoration: none; display: block; color: inherit; }
+    .friend-card:hover { transform: translateY(-5px); box-shadow: 0 8px 26px rgba(33,150,243,0.18); border-color: rgba(66,165,245,0.35); }
+    .friend-avatar-wrap { position: relative; width: 68px; margin: 0 auto 10px; }
+    .friend-initial { width: 68px; height: 68px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: #fff; border: 3px solid rgba(33,150,243,0.25); }
+    .friend-online { position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid #050d1a; }
+    .friend-online.on { background: #42a5f5; box-shadow: 0 0 8px rgba(66,165,245,0.9); }
+    .friend-name { font-size: 0.78rem; font-weight: 900; color: #e3f2fd; margin-bottom: 2px; }
+    .friend-id { font-size: 0.62rem; color: #5c8bbb; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .friend-status { font-size: 0.66rem; color: #7bafd4; }
+    .friend-xat-badge { display: inline-block; margin-top: 6px; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(33,150,243,0.08); border: 1px solid rgba(33,150,243,0.18); color: #64b5f6; border-radius: 50px; padding: 2px 8px; }
+
+    /* ── Galeria ── */
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+    .gallery-item { border-radius: 14px; overflow: hidden; border: 2px solid rgba(33,150,243,0.14); transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; position: relative; background: #0a1228; text-decoration: none; display: block; }
+    .gallery-item:hover { transform: scale(1.04); box-shadow: 0 8px 28px rgba(33,150,243,0.22); border-color: rgba(66,165,245,0.40); }
+    .gallery-item img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    .gallery-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(5,13,26,0.92)); color: #90caf9; padding: 20px 10px 8px; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
+
+    /* ══ MUSIC PLAYER ══ */
+    .music-app {
+      background: linear-gradient(145deg, #040912 0%, #070f22 35%, #050d1a 100%);
+      border-radius: 28px; overflow: hidden;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.5), inset 0 1px 0 rgba(66,165,245,0.07);
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 24px;
+    }
+    .music-app::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 15% 10%, rgba(21,101,192,0.12) 0%, transparent 30%), radial-gradient(circle at 90% 20%, rgba(33,150,243,0.08) 0%, transparent 28%);
+      pointer-events: none;
+    }
+    .music-player-grid {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .album-section {
+      padding: 24px;
+      background: rgba(13,27,62,0.45);
+      border: 1px solid rgba(33,150,243,0.12);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .album-art-wrap { width: 100%; max-width: 240px; height: 240px; border-radius: 28px; overflow: hidden; position: relative; }
+    .album-glow { position: absolute; inset: 0; background: radial-gradient(circle, rgba(33,150,243,0.18), transparent 55%); mix-blend-mode: screen; pointer-events: none; }
+    .album-art { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .album-info { text-align: center; }
+    .album-info .song-title { font-family: 'Fredoka One', cursive; font-size: 1.25rem; color: #e3f2fd; margin-bottom: 6px; }
+    .album-info .song-artist { font-size: 0.85rem; color: rgba(144,202,249,0.65); text-transform: uppercase; letter-spacing: 1px; }
+    .playlist-card { background: rgba(13,27,62,0.45); border: 1px solid rgba(33,150,243,0.12); border-radius: 24px; padding: 20px; margin-top: 16px; }
+    .playlist-title { font-family: 'Fredoka One', cursive; font-size: 1rem; color: #90caf9; margin-bottom: 14px; }
+    .tracklist { display: grid; gap: 8px; max-height: 300px; overflow: auto; padding-right: 4px; }
+    .tracklist::-webkit-scrollbar { width: 6px; }
+    .tracklist::-webkit-scrollbar-thumb { background: rgba(33,150,243,0.18); border-radius: 999px; }
+    .track-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(33,150,243,0.08); cursor: pointer; }
+    .track-item:last-child { border-bottom: none; }
+    .track-meta { display: flex; align-items: center; gap: 10px; }
+    .track-number { font-size: 0.78rem; color: rgba(144,202,249,0.45); }
+    .track-name { font-size: 0.92rem; font-weight: 700; color: #e3f2fd; }
+    .track-duration { font-size: 0.78rem; color: rgba(144,202,249,0.45); }
+    .track-item.active .track-name { color: #42a5f5; }
+    .player-panel { background: rgba(13,27,62,0.45); border: 1px solid rgba(33,150,243,0.12); border-radius: 24px; padding: 28px; display: grid; gap: 20px; }
+    .player-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .player-badge { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.8px; color: #42a5f5; font-weight: 800; }
+    .player-subtitle { color: #7bafd4; letter-spacing: 0.8px; font-size: 0.82rem; }
+
+    .song-actions { display: flex; gap: 10px; }
+    .action-btn { width: 46px; height: 46px; display: inline-flex; align-items: center; justify-content: center; background: rgba(33,150,243,0.06); border: 1px solid rgba(33,150,243,0.14); border-radius: 50%; color: rgba(144,202,249,0.7); font-size: 1rem; transition: color 0.2s, transform 0.2s; cursor: pointer; }
+    .action-btn:hover { color: #90caf9; transform: scale(1.06); }
+    .action-btn.liked { color: #42a5f5; }
+
+    .progress-section { padding: 0; }
+    .progress-bar-wrap { width: 100%; height: 4px; background: rgba(33,150,243,0.12); border-radius: 4px; position: relative; transition: height 0.2s; cursor: pointer; margin-bottom: 6px; }
+    .progress-bar-wrap:hover { height: 6px; }
+    .progress-fill { height: 100%; width: 0%; border-radius: 4px; background: linear-gradient(90deg, #1565c0, #42a5f5); position: relative; transition: width 0.5s linear; }
+    .progress-fill::after { content: ''; position: absolute; right: -5px; top: 50%; width: 10px; height: 10px; border-radius: 50%; background: #90caf9; transform: translateY(-50%); box-shadow: 0 0 8px rgba(66,165,245,0.9); opacity: 0; transition: opacity 0.2s; }
+    .progress-bar-wrap:hover .progress-fill::after { opacity: 1; }
+    .time-row { display: flex; justify-content: space-between; margin-top: 6px; }
+    .time-label { font-size: 0.68rem; color: rgba(144,202,249,0.55); font-weight: 700; letter-spacing: 0.5px; }
+
+    .controls-section { display: flex; align-items: center; justify-content: center; gap: 18px; }
+    .ctrl { background: none; border: none; color: rgba(144,202,249,0.5); font-size: 1.1rem; padding: 8px; border-radius: 50%; transition: color 0.2s, transform 0.15s; cursor: pointer; }
+    .ctrl:hover { color: #90caf9; transform: scale(1.15); }
+    .ctrl.active-ctrl { color: #42a5f5; }
+    .ctrl-play {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, #1565c0, #1976d2);
+      border: none; color: #fff; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(21,101,192,0.55);
+      transition: transform 0.15s, box-shadow 0.15s; cursor: pointer;
+    }
+    .ctrl-play:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(33,150,243,0.65); }
+
+    .volume-section { padding: 0; display: flex; align-items: center; gap: 12px; justify-content: flex-end; }
+    .vol-icon { color: rgba(144,202,249,0.4); font-size: 0.9rem; min-width: 16px; text-align: center; }
+    .vol-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 3px; border-radius: 3px; outline: none; background: linear-gradient(to right, #1565c0 70%, rgba(33,150,243,0.15) 70%); cursor: pointer; }
+    .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #90caf9; box-shadow: 0 0 6px rgba(33,150,243,0.7); }
+
+    .player-status { text-align: left; padding: 0; }
+    .status-pill { display: inline-block; background: rgba(33,150,243,0.10); border: 1px solid rgba(33,150,243,0.22); border-radius: 50px; padding: 4px 14px; font-size: 0.65rem; color: #64b5f6; letter-spacing: 1.5px; text-transform: uppercase; }
+
+    /* Footer */
+    .profile-footer { text-align: center; padding: 20px; font-size: 0.72rem; color: #5c8bbb; letter-spacing: 1px; }
+    .profile-footer span { color: #42a5f5; font-weight: 700; }
+
+    /* ── Invitación ── */
+    .invite-card {
+      position: relative; border-radius: 24px; overflow: hidden; min-height: 320px;
+      background: radial-gradient(ellipse at 50% 40%, #0d2a6e 0%, #050d1a 75%);
+      border: 1.5px solid rgba(33,150,243,0.25);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .invite-rings { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    .invite-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(33,150,243,0.15); animation: ringPulse 4s ease-in-out infinite; }
+    .invite-ring.ir1 { width: 260px; height: 260px; }
+    .invite-ring.ir2 { width: 400px; height: 400px; animation-delay: 1s; }
+    .invite-body { position: relative; z-index: 2; text-align: center; padding: 48px 32px; }
+    .invite-icon { font-size: 2.8rem; margin-bottom: 16px; filter: drop-shadow(0 0 12px rgba(66,165,245,0.6)); }
+    .invite-title { font-family: 'Fredoka One', cursive; font-size: clamp(1.4rem, 4vw, 2rem); color: #e3f2fd; margin-bottom: 8px; text-shadow: 0 0 24px rgba(33,150,243,0.4); }
+    .invite-sub { font-size: 0.88rem; color: #7bafd4; letter-spacing: 1px; margin-bottom: 20px; }
+    .invite-url { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; color: #42a5f5; background: rgba(33,150,243,0.10); border: 1px solid rgba(33,150,243,0.25); border-radius: 50px; padding: 5px 18px; margin-bottom: 24px; }
+    .invite-btn { display: inline-block; padding: 13px 36px; border-radius: 14px; background: linear-gradient(135deg, #1565c0, #1976d2); color: #fff; font-family: 'Fredoka One', cursive; font-size: 1.05rem; letter-spacing: 0.5px; text-decoration: none; box-shadow: 0 6px 24px rgba(21,101,192,0.55); transition: transform 0.15s, box-shadow 0.15s; }
+    .invite-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(33,150,243,0.6); }
+
+    /* ── Tracklist simple ── */
+    .simple-tracklist { display: grid; gap: 6px; }
+    .simple-track { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: rgba(13,59,128,0.10); border: 1px solid rgba(33,150,243,0.10); cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+    .simple-track:hover { background: rgba(21,101,192,0.18); border-color: rgba(33,150,243,0.28); }
+    .simple-track.active { background: rgba(21,101,192,0.25); border-color: rgba(66,165,245,0.45); }
+    .s-num { font-size: 0.75rem; color: #5c8bbb; font-weight: 700; min-width: 22px; }
+    .s-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .s-name { font-size: 0.9rem; font-weight: 700; color: #e3f2fd; }
+    .s-artist { font-size: 0.72rem; color: #5c8bbb; }
+    .simple-track.active .s-name { color: #42a5f5; }
+    .s-dur { font-size: 0.72rem; color: #5c8bbb; }
+
+    /* ── Hero Inicio ── */
+    .inicio-hero {
+      position: relative; border-radius: 24px; overflow: hidden;
+      background: radial-gradient(ellipse at 50% 30%, #0d2a6e 0%, #050d1a 70%);
+      border: 1.5px solid rgba(33,150,243,0.22);
+      min-height: 340px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .hero-rings { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    .hero-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(33,150,243,0.15); }
+    .hero-ring.r1 { width: 220px; height: 220px; animation: ringPulse 4s ease-in-out infinite; }
+    .hero-ring.r2 { width: 340px; height: 340px; animation: ringPulse 4s ease-in-out infinite 0.8s; }
+    .hero-ring.r3 { width: 460px; height: 460px; animation: ringPulse 4s ease-in-out infinite 1.6s; }
+    @keyframes ringPulse {
+      0%,100% { opacity: 0.3; transform: scale(1); }
+      50%     { opacity: 0.7; transform: scale(1.04); }
+    }
+    .hero-stars { position: absolute; inset: 0; pointer-events: none; }
+    .hero-star { position: absolute; width: 3px; height: 3px; background: #64b5f6; border-radius: 50%; animation: starBlink var(--d) ease-in-out infinite var(--dl); }
+    @keyframes starBlink { 0%,100% { opacity: 0.1; } 50% { opacity: 0.9; } }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 40px 32px; }
+    .hero-icon { font-size: 2rem; color: #42a5f5; animation: iconSpin 8s linear infinite; display: inline-block; margin-bottom: 20px; filter: drop-shadow(0 0 12px rgba(66,165,245,0.7)); }
+    @keyframes iconSpin { to { transform: rotate(360deg); } }
+    .hero-quote { font-family: 'Fredoka One', cursive; font-size: clamp(1.1rem, 3vw, 1.7rem); color: #e3f2fd; line-height: 1.5; max-width: 520px; margin: 0 auto 24px; text-shadow: 0 0 30px rgba(33,150,243,0.4); min-height: 2.5em; }
+    .hero-line { width: 60px; height: 2px; background: linear-gradient(90deg, transparent, #42a5f5, transparent); margin: 0 auto 16px; }
+    .hero-handle { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: #5c8bbb; font-weight: 700; }
+
+    /* ── Load Song ── */
+    .load-song-card { background: rgba(13,27,62,0.45); border: 1px solid rgba(33,150,243,0.12); border-radius: 24px; padding: 20px; margin-bottom: 16px; }
+    .load-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: 12px; background: linear-gradient(135deg,#0d3b80,#1565c0); color: #e3f2fd; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.5px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; border: none; width: 100%; margin: 10px 0 8px; }
+    .load-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(21,101,192,0.5); }
+    .load-name { font-size: 0.72rem; color: #5c8bbb; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    @media (max-width: 750px) {
+      .music-player-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .profile-header { flex-direction: column; align-items: center; text-align: center; }
+      .profile-stats { margin-left: 0; justify-content: center; }
+      .profile-tags { justify-content: center; }
+      .info-grid { grid-template-columns: 1fr; }
+      .tab-btn { font-size: 0.72rem; padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot"  id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-star" id="cursorStar">✦</div>
+
+  <div class="wrapper">
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="avatar-wrap">
+        <div class="avatar-ring">
+          <!-- Cambia el src por el avatar de Isaac -->
+          <img src="https://xatimg.com/image/VzAwdtwTRyhO.png" alt="isaacgadieL" referrerpolicy="no-referrer">
+        </div>
+        <div class="online-dot"></div>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">isaacgadieL</div>
+        <div class="profile-handle">@isaacgadieL · ID: 1532079922</div>
+        <div class="profile-bio">Bienvenido a mi espacio en Xat. Un lugar donde la buena vibra y la comunidad son lo primero.</div>
+        <div class="profile-tags">
+          <span class="ptag">Xat</span>
+          <span class="ptag pink">Blue</span>
+          <span class="ptag cyan">XAT Space</span>
+          <span class="ptag">Online</span>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-box"><span class="stat-num">0</span><span class="stat-label">Amigos</span></div>
+        <div class="stat-box"><span class="stat-num">0</span><span class="stat-label">Frames</span></div>
+        <div class="stat-box"><span class="stat-num">Online</span><span class="stat-label">Estado</span></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <nav class="tab-nav" role="tablist">
+      <button class="tab-btn active" onclick="showTab('inicio', this)">Inicio</button>
+      <button class="tab-btn" onclick="showTab('galeria', this)">Chat</button>
+      <button class="tab-btn" onclick="showTab('musica', this)">Musica</button>
+    </nav>
+
+    <!-- INICIO -->
+    <div class="tab-content active" id="tab-inicio">
+      <div class="inicio-hero">
+        <div class="hero-rings">
+          <div class="hero-ring r1"></div>
+          <div class="hero-ring r2"></div>
+          <div class="hero-ring r3"></div>
+        </div>
+        <div class="hero-stars" id="heroStars"></div>
+        <div class="hero-content">
+          <div class="hero-icon">✦</div>
+          <p class="hero-quote" id="heroQuote"></p>
+          <div class="hero-line"></div>
+          <span class="hero-handle">isaacgadieL</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- GALERIA → Invitación -->
+    <div class="tab-content" id="tab-galeria">
+      <div class="invite-card">
+        <div class="invite-rings">
+          <div class="invite-ring ir1"></div>
+          <div class="invite-ring ir2"></div>
+        </div>
+        <div class="invite-body">
+          <div class="invite-icon">💬</div>
+          <h2 class="invite-title">¡Únete a nuestro Chat!</h2>
+          <p class="invite-sub">Música · Buena vibra · Comunidad en vivo</p>
+          <div class="invite-url">xat.com/activaera</div>
+          <a class="invite-btn" href="https://xat.com/activaera" target="_blank" rel="noopener">
+            Entrar al Chat
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MUSICA -->
+    <div class="tab-content" id="tab-musica">
+      <div class="content-card">
+        <div class="card-title">&#127925; Playlist</div>
+        <div class="simple-tracklist">
+          <div class="simple-track active" onclick="playSong('music/pirata.mp3', this)">
+            <span class="s-num">01</span>
+            <div class="s-info"><span class="s-name">Tu Pirata Soy Yo</span><span class="s-artist">Salsa Baultu</span></div>
+            <span class="s-dur">&#9654;</span>
+          </div>
+        </div>
+        <audio id="audioPlayer" controls style="width:100%;margin-top:18px;border-radius:12px;"></audio>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script>
+
+    function showTab(name, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    const star = document.getElementById('cursorStar');
+    let mx = 0, my = 0, rx = 0, ry = 0, lastSparkle = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+      star.style.left = mx + 'px'; star.style.top = my + 'px';
+      const now = Date.now();
+      if (now - lastSparkle > 60) {
+        lastSparkle = now;
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        s.style.left = mx + 'px'; s.style.top = my + 'px';
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 800);
+      }
+    });
+    (function animRing() {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+    document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+    document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+
+    ['✦','✧','✶','⭑','⭒'].forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'petal'; el.innerHTML = p;
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.animationDuration = (Math.random() * 4 + 5) + 's';
+      el.style.animationDelay    = (Math.random() * 7) + 's';
+      el.style.opacity = (Math.random() * 0.4 + 0.2).toFixed(2);
+      document.body.appendChild(el);
+    });
+
+    // ── Playlist simple ──
+    function playSong(src, el) {
+      document.querySelectorAll('.simple-track').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      const audio = document.getElementById('audioPlayer');
+      audio.src = src;
+      audio.play().catch(() => {});
+    }
+
+    // ── Autoplay al entrar ──
+    window.addEventListener('load', function () {
+      const audio = document.getElementById('audioPlayer');
+      audio.src = 'music/pirata.mp3';
+      audio.volume = 0.7;
+      audio.play().catch(function () {
+        // El navegador bloqueó el autoplay, se activa al primer clic
+        function unlock() {
+          audio.play().catch(() => {});
+          document.removeEventListener('click', unlock);
+          document.removeEventListener('touchstart', unlock);
+        }
+        document.addEventListener('click', unlock);
+        document.addEventListener('touchstart', unlock);
+      });
+    });
+
+    // ── Hero: estrellas aleatorias ──
+    const heroStars = document.getElementById('heroStars');
+    for (let i = 0; i < 40; i++) {
+      const s = document.createElement('div');
+      s.className = 'hero-star';
+      s.style.left   = (Math.random() * 100) + '%';
+      s.style.top    = (Math.random() * 100) + '%';
+      s.style.setProperty('--d',  (Math.random() * 3 + 2) + 's');
+      s.style.setProperty('--dl', '-' + (Math.random() * 3) + 's');
+      heroStars.appendChild(s);
+    }
+
+    // ── Hero: efecto de escritura ──
+    const phrase = '"El cielo no es el límite, es solo el comienzo"';
+    const el = document.getElementById('heroQuote');
+    let ci = 0;
+    function typeChar() {
+      if (ci < phrase.length) { el.textContent += phrase[ci++]; setTimeout(typeChar, 55); }
+    }
+    setTimeout(typeChar, 600);
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J'].includes(e.key)) || (e.metaKey && e.altKey && e.key === 'I'))
+        e.preventDefault();
+    });
+  </script>
+</body>
+</html>
